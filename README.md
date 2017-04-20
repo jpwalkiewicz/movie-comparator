@@ -1,2 +1,2 @@
-# movie-comparator
-Movie comparator - find out what two movies have in common. 
+# Movie comparator
+Find out what two movies have in common.
