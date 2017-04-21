@@ -9590,11 +9590,11 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             _this._handleBtnClick = function (event) {
-                var firstTitleToSearch = "http://www.omdbapi.com/?t=" + _this.state.firstTitleinput.split(' ').join('+');
+                var firstTitleToSearch = "http://www.omdbapi.com/?t=" + _this.state.firstTitleinput.split(' ').join('+') + "&plot=full";
 
-                var secondTitleToToSearch = "http://www.omdbapi.com/?t=" + _this.state.secondTitleinput.split(' ').join('+');
+                var secondTitleToSearch = "http://www.omdbapi.com/?t=" + _this.state.secondTitleinput.split(' ').join('+') + "&plot=full";
 
-                _this._fetchSearch(firstTitleToSearch, secondTitleToToSearch);
+                _this._fetchSearch(firstTitleToSearch, secondTitleToSearch);
             };
 
             _this._fetchSearch = function (movie1, movie2) {
@@ -9602,22 +9602,87 @@ document.addEventListener('DOMContentLoaded', function () {
                     return res.json();
                 }).then(function (data) {
 
-                    _this.setState({ title1: data.Title, year1: data.Year, runtime1: data.Runtime, actorsList1: data.Actors,
-                        poster1: data.Poster });
+                    if (data.Response != "False") {
+                        _this.setState({
+                            errorLoading1: "",
+                            title1: data.Title,
+                            year1: data.Year,
+                            runtime1: parseInt(data.Runtime, 10),
+                            actorsList1: data.Actors,
+                            poster1: data.Poster,
+                            director1: data.Director,
+                            language1: data.Language,
+                            plot1: data.Plot
+                        });
+                    } else {
+                        _this.setState({ errorLoading1: "No movies with that title" });
+                    }
 
                     fetch(movie2).then(function (res) {
                         return res.json();
                     }).then(function (data) {
-                        _this.setState({ title2: data.Title, year2: data.Year, runtime2: data.Runtime, actorsList2: data.Actors, poster2: data.Poster });
+                        if (data.Response != "False") {
+
+                            _this.setState({
+                                errorLoading2: "",
+                                title2: data.Title,
+                                year2: data.Year,
+                                runtime2: parseInt(data.Runtime, 10),
+                                actorsList2: data.Actors,
+                                poster2: data.Poster,
+                                director2: data.Director,
+                                language2: data.Language,
+                                plot2: data.Plot
+                            });
+                        } else {
+                            _this.setState({ errorLoading2: "No movies with that title" });
+                        }
+                    }).then(function (e) {
+                        _this._actorsInCommon();
+                        _this._languageInCommon();
                     });
                 });
+            };
+
+            _this._actorsInCommon = function () {
+                var actors1 = _this.state.actorsList1.split(', ');
+                var actors2 = _this.state.actorsList2.split(', ');
+                var commonActorsArr = [];
+                for (var i = 0; i < actors1.length; i++) {
+                    for (var j = 0; j < actors2.length; j++) {
+                        if (actors1[i] == actors2[j]) {
+                            commonActorsArr.push(actors1[i]);
+                        }
+                    }
+                }
+                _this.setState({ actorsListInCommon: commonActorsArr.join(", ") });
+            };
+
+            _this._languageInCommon = function () {
+                var language1 = _this.state.language1.split(', ');
+                var language2 = _this.state.language2.split(', ');
+                var commonLanguageArr = [];
+
+                console.log(language1);
+                console.log(language2);
+
+                for (var i = 0; i < language1.length; i++) {
+                    for (var j = 0; j < language2.length; j++) {
+                        if (language1[i] == language2[j]) {
+                            commonLanguageArr.push(language1[i]);
+                        }
+                    }
+                }
+                _this.setState({ languageListInComon: commonLanguageArr.join(", ") });
             };
 
             _this.state = {
                 firstTitleinput: "",
                 secondTitleinput: "",
                 url1: "",
-                url2: "http://www.omdbapi.com/?t=fracture",
+                url2: "",
+                errorLoading1: "",
+                errorLoading2: "",
                 title1: "",
                 title2: "",
                 year1: "",
@@ -9628,8 +9693,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 director2: "",
                 actorsList1: "",
                 actorsList2: "",
+                actorsListInCommon: [],
+                plot1: "",
+                plot2: "",
                 language1: "",
                 language2: "",
+                languageListInComon: [],
                 countryList1: "",
                 countryList2: "",
                 poster1: "",
@@ -9662,23 +9731,45 @@ document.addEventListener('DOMContentLoaded', function () {
                         null,
                         _react2.default.createElement('img', { src: this.state.poster1, alt: this.state.title1, title: this.state.title1, className: 'scale-down-left' }),
                         'Title: ',
+                        this.state.errorLoading1,
+                        ', ',
                         this.state.title1,
+                        ', ',
                         this.state.year1,
+                        ', ',
                         this.state.runtime1,
-                        this.state.actorsList1
+                        'min, ',
+                        this.state.actorsList1,
+                        ', ',
+                        this.state.plot1
                     ),
                     _react2.default.createElement('br', null),
-                    _react2.default.createElement('input', { type: 'text', value: this.state.secondTitleinput, onChange: this._handleSecondTitleChange,
-                        className: 'inputSearch' }),
+                    _react2.default.createElement(
+                        'h1',
+                        null,
+                        'wsp\xF3lni aktorzy to: ',
+                        this.state.actorsListInCommon,
+                        _react2.default.createElement('br', null),
+                        'jezyk: ',
+                        this.state.languageListInComon
+                    ),
+                    _react2.default.createElement('input', { type: 'text', value: this.state.secondTitleinput, onChange: this._handleSecondTitleChange, className: 'inputSearch' }),
                     _react2.default.createElement(
                         'div',
                         null,
                         _react2.default.createElement('img', { src: this.state.poster2, alt: this.state.title2, title: this.state.title2 }),
-                        'Title: ',
+                        ' ',
+                        this.state.errorLoading2,
+                        ', Title: ',
                         this.state.title2,
+                        ', ',
                         this.state.year2,
+                        ', ',
                         this.state.runtime2,
-                        this.state.actorsList2
+                        'min, ',
+                        this.state.actorsList2,
+                        ', ',
+                        this.state.plot2
                     ),
                     _react2.default.createElement(
                         'div',
@@ -11645,7 +11736,7 @@ exports = module.exports = __webpack_require__(87)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  background-color: white; }\n\n@-webkit-keyframes scale-down-left {\n  0% {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n    -webkit-transform-origin: 0 50%;\n    transform-origin: 0 50%; }\n  100% {\n    -webkit-transform: scale(0.5);\n    transform: scale(0.5);\n    -webkit-transform-origin: 0 50%;\n    transform-origin: 0 50%; } }\n\n@keyframes scale-down-left {\n  0% {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n    -webkit-transform-origin: 0 50%;\n    transform-origin: 0 50%; }\n  100% {\n    -webkit-transform: scale(0.5);\n    transform: scale(0.5);\n    -webkit-transform-origin: 0 50%;\n    transform-origin: 0 50%; } }\n\n.scale-down-left {\n  -webkit-animation: scale-down-left 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2s forwards;\n  -moz-animation: scale-down-left 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2s forwards;\n  animation: scale-down-left 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2s forwards; }\n\n.pleft {\n  float: left; }\n\n.inputSearch {\n  display: inline-block;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  padding: 10px 20px;\n  border: 1px solid #b7b7b7;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif;\n  color: #008ec6;\n  -o-text-overflow: clip;\n  text-overflow: clip;\n  background: #fcfcfc;\n  -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.66);\n  -webkit-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -moz-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -o-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1); }\n", ""]);
+exports.push([module.i, "body {\n  background-color: white; }\n\n.pleft {\n  float: left; }\n\n.inputSearch {\n  display: inline-block;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  padding: 10px 20px;\n  border: 1px solid #b7b7b7;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif;\n  color: #008ec6;\n  -o-text-overflow: clip;\n  text-overflow: clip;\n  background: #fcfcfc;\n  -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.66);\n  -webkit-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -moz-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -o-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1); }\n", ""]);
 
 // exports
 
