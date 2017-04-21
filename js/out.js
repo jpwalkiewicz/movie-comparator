@@ -9562,6 +9562,10 @@ var _reactDom = __webpack_require__(80);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _moviesDisplay = __webpack_require__(193);
+
+var _moviesDisplay2 = _interopRequireDefault(_moviesDisplay);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9573,222 +9577,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 __webpack_require__(82);
 
 document.addEventListener('DOMContentLoaded', function () {
-    var MovieSearch = function (_React$Component) {
-        _inherits(MovieSearch, _React$Component);
-
-        function MovieSearch(props) {
-            _classCallCheck(this, MovieSearch);
-
-            var _this = _possibleConstructorReturn(this, (MovieSearch.__proto__ || Object.getPrototypeOf(MovieSearch)).call(this, props));
-
-            _this._handleFirstTitleChange = function (event) {
-                _this.setState({ firstTitleinput: event.target.value });
-            };
-
-            _this._handleSecondTitleChange = function (event) {
-                _this.setState({ secondTitleinput: event.target.value });
-            };
-
-            _this._handleBtnClick = function (event) {
-                var firstTitleToSearch = "http://www.omdbapi.com/?t=" + _this.state.firstTitleinput.split(' ').join('+') + "&plot=full";
-
-                var secondTitleToSearch = "http://www.omdbapi.com/?t=" + _this.state.secondTitleinput.split(' ').join('+') + "&plot=full";
-
-                _this._fetchSearch(firstTitleToSearch, secondTitleToSearch);
-            };
-
-            _this._fetchSearch = function (movie1, movie2) {
-                fetch(movie1).then(function (res) {
-                    return res.json();
-                }).then(function (data) {
-
-                    if (data.Response != "False") {
-                        _this.setState({
-                            errorLoading1: "",
-                            title1: data.Title,
-                            year1: data.Year,
-                            runtime1: parseInt(data.Runtime, 10),
-                            actorsList1: data.Actors,
-                            poster1: data.Poster,
-                            director1: data.Director,
-                            language1: data.Language,
-                            plot1: data.Plot
-                        });
-                    } else {
-                        _this.setState({ errorLoading1: "No movies with that title" });
-                    }
-
-                    fetch(movie2).then(function (res) {
-                        return res.json();
-                    }).then(function (data) {
-                        if (data.Response != "False") {
-
-                            _this.setState({
-                                errorLoading2: "",
-                                title2: data.Title,
-                                year2: data.Year,
-                                runtime2: parseInt(data.Runtime, 10),
-                                actorsList2: data.Actors,
-                                poster2: data.Poster,
-                                director2: data.Director,
-                                language2: data.Language,
-                                plot2: data.Plot
-                            });
-                        } else {
-                            _this.setState({ errorLoading2: "No movies with that title" });
-                        }
-                    }).then(function (e) {
-                        _this._actorsInCommon();
-                        _this._languageInCommon();
-                    });
-                });
-            };
-
-            _this._actorsInCommon = function () {
-                var actors1 = _this.state.actorsList1.split(', ');
-                var actors2 = _this.state.actorsList2.split(', ');
-                var commonActorsArr = [];
-                for (var i = 0; i < actors1.length; i++) {
-                    for (var j = 0; j < actors2.length; j++) {
-                        if (actors1[i] == actors2[j]) {
-                            commonActorsArr.push(actors1[i]);
-                        }
-                    }
-                }
-                _this.setState({ actorsListInCommon: commonActorsArr.join(", ") });
-            };
-
-            _this._languageInCommon = function () {
-                var language1 = _this.state.language1.split(', ');
-                var language2 = _this.state.language2.split(', ');
-                var commonLanguageArr = [];
-
-                console.log(language1);
-                console.log(language2);
-
-                for (var i = 0; i < language1.length; i++) {
-                    for (var j = 0; j < language2.length; j++) {
-                        if (language1[i] == language2[j]) {
-                            commonLanguageArr.push(language1[i]);
-                        }
-                    }
-                }
-                _this.setState({ languageListInComon: commonLanguageArr.join(", ") });
-            };
-
-            _this.state = {
-                firstTitleinput: "",
-                secondTitleinput: "",
-                url1: "",
-                url2: "",
-                errorLoading1: "",
-                errorLoading2: "",
-                title1: "",
-                title2: "",
-                year1: "",
-                year2: "",
-                runtime1: "",
-                runtime2: "",
-                director1: "",
-                director2: "",
-                actorsList1: "",
-                actorsList2: "",
-                actorsListInCommon: [],
-                plot1: "",
-                plot2: "",
-                language1: "",
-                language2: "",
-                languageListInComon: [],
-                countryList1: "",
-                countryList2: "",
-                poster1: "",
-                poster2: "",
-                imdbRating1: "",
-                imdbRating2: "",
-                boxOffice1: "",
-                boxOffice2: "",
-                production1: "",
-                production2: "",
-                website1: "",
-                website2: ""
-            };
-            return _this;
-        }
-
-        _createClass(MovieSearch, [{
-            key: 'componentDidMount',
-            value: function componentDidMount() {}
-        }, {
-            key: 'render',
-            value: function render() {
-
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement('input', { type: 'text', value: this.state.firstTitleinput, onChange: this._handleFirstTitleChange, className: 'inputSearch' }),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement('img', { src: this.state.poster1, alt: this.state.title1, title: this.state.title1, className: 'scale-down-left' }),
-                        'Title: ',
-                        this.state.errorLoading1,
-                        ', ',
-                        this.state.title1,
-                        ', ',
-                        this.state.year1,
-                        ', ',
-                        this.state.runtime1,
-                        'min, ',
-                        this.state.actorsList1,
-                        ', ',
-                        this.state.plot1
-                    ),
-                    _react2.default.createElement('br', null),
-                    _react2.default.createElement(
-                        'h1',
-                        null,
-                        'wsp\xF3lni aktorzy to: ',
-                        this.state.actorsListInCommon,
-                        _react2.default.createElement('br', null),
-                        'jezyk: ',
-                        this.state.languageListInComon
-                    ),
-                    _react2.default.createElement('input', { type: 'text', value: this.state.secondTitleinput, onChange: this._handleSecondTitleChange, className: 'inputSearch' }),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement('img', { src: this.state.poster2, alt: this.state.title2, title: this.state.title2 }),
-                        ' ',
-                        this.state.errorLoading2,
-                        ', Title: ',
-                        this.state.title2,
-                        ', ',
-                        this.state.year2,
-                        ', ',
-                        this.state.runtime2,
-                        'min, ',
-                        this.state.actorsList2,
-                        ', ',
-                        this.state.plot2
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement(
-                            'button',
-                            { onClick: this._handleBtnClick },
-                            'check movies'
-                        )
-                    )
-                );
-            }
-        }]);
-
-        return MovieSearch;
-    }(_react2.default.Component);
-
-    var App = function (_React$Component2) {
-        _inherits(App, _React$Component2);
+    var App = function (_React$Component) {
+        _inherits(App, _React$Component);
 
         function App() {
             _classCallCheck(this, App);
@@ -9799,7 +9589,7 @@ document.addEventListener('DOMContentLoaded', function () {
         _createClass(App, [{
             key: 'render',
             value: function render() {
-                return _react2.default.createElement(MovieSearch, null);
+                return _react2.default.createElement(_moviesDisplay2.default, null);
             }
         }]);
 
@@ -24794,6 +24584,359 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+/* 192 */,
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(81);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _contentInCommon = __webpack_require__(194);
+
+var _contentInCommon2 = _interopRequireDefault(_contentInCommon);
+
+var _independentMovieInfo = __webpack_require__(195);
+
+var _independentMovieInfo2 = _interopRequireDefault(_independentMovieInfo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MovieSearch = function (_React$Component) {
+    _inherits(MovieSearch, _React$Component);
+
+    function MovieSearch(props) {
+        _classCallCheck(this, MovieSearch);
+
+        var _this = _possibleConstructorReturn(this, (MovieSearch.__proto__ || Object.getPrototypeOf(MovieSearch)).call(this, props));
+
+        _this._handleFirstTitleChange = function (event) {
+            _this.setState({ firstTitleinput: event.target.value });
+        };
+
+        _this._handleSecondTitleChange = function (event) {
+            _this.setState({ secondTitleinput: event.target.value });
+        };
+
+        _this._handleBtnClick = function (event) {
+            var firstTitleToSearch = "http://www.omdbapi.com/?t=" + _this.state.firstTitleinput.split(' ').join('+') + "&plot=full";
+
+            var secondTitleToSearch = "http://www.omdbapi.com/?t=" + _this.state.secondTitleinput.split(' ').join('+') + "&plot=full";
+
+            _this._fetchSearch(firstTitleToSearch, secondTitleToSearch);
+        };
+
+        _this._fetchSearch = function (movie1, movie2) {
+            fetch(movie1).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+
+                if (data.Response != "False") {
+                    _this.setState({
+                        errorLoading1: "",
+                        title1: data.Title,
+                        year1: data.Year,
+                        runtime1: parseInt(data.Runtime, 10),
+                        actorsList1: data.Actors,
+                        poster1: data.Poster,
+                        director1: data.Director,
+                        language1: data.Language,
+                        plot1: data.Plot
+                    });
+                } else {
+                    _this.setState({ errorLoading1: "No movies with that title" });
+                }
+
+                fetch(movie2).then(function (res) {
+                    return res.json();
+                }).then(function (data) {
+                    if (data.Response != "False") {
+
+                        _this.setState({
+                            errorLoading2: "",
+                            title2: data.Title,
+                            year2: data.Year,
+                            runtime2: parseInt(data.Runtime, 10),
+                            actorsList2: data.Actors,
+                            poster2: data.Poster,
+                            director2: data.Director,
+                            language2: data.Language,
+                            plot2: data.Plot
+                        });
+                    } else {
+                        _this.setState({ errorLoading2: "No movies with that title" });
+                    }
+                }).then(function (e) {
+                    _this._actorsInCommon();
+                    _this._languageInCommon();
+                });
+            });
+        };
+
+        _this._actorsInCommon = function () {
+            var actors1 = _this.state.actorsList1.split(', ');
+            var actors2 = _this.state.actorsList2.split(', ');
+            var commonActorsArr = [];
+            for (var i = 0; i < actors1.length; i++) {
+                for (var j = 0; j < actors2.length; j++) {
+                    if (actors1[i] == actors2[j]) {
+                        commonActorsArr.push(actors1[i]);
+                    }
+                }
+            }
+            _this.setState({ actorsListInCommon: commonActorsArr.join(", ") });
+        };
+
+        _this._languageInCommon = function () {
+            var language1 = _this.state.language1.split(', ');
+            var language2 = _this.state.language2.split(', ');
+            var commonLanguageArr = [];
+
+            console.log(language1);
+            console.log(language2);
+
+            for (var i = 0; i < language1.length; i++) {
+                for (var j = 0; j < language2.length; j++) {
+                    if (language1[i] == language2[j]) {
+                        commonLanguageArr.push(language1[i]);
+                    }
+                }
+            }
+            _this.setState({ languageListInComon: commonLanguageArr.join(", ") });
+        };
+
+        _this.state = {
+            firstTitleinput: "",
+            secondTitleinput: "",
+            url1: "",
+            url2: "",
+            errorLoading1: "",
+            errorLoading2: "",
+            title1: "",
+            title2: "",
+            year1: "",
+            year2: "",
+            runtime1: "",
+            runtime2: "",
+            director1: "",
+            director2: "",
+            actorsList1: "",
+            actorsList2: "",
+            actorsListInCommon: [],
+            plot1: "",
+            plot2: "",
+            language1: "",
+            language2: "",
+            languageListInComon: [],
+            countryList1: "",
+            countryList2: "",
+            poster1: "",
+            poster2: "",
+            imdbRating1: "",
+            imdbRating2: "",
+            boxOffice1: "",
+            boxOffice2: "",
+            production1: "",
+            production2: "",
+            website1: "",
+            website2: ""
+        };
+        return _this;
+    }
+
+    _createClass(MovieSearch, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
+        key: 'render',
+        value: function render() {
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement('input', { type: 'text', value: this.state.firstTitleinput, onChange: this._handleFirstTitleChange, className: 'inputSearch' }),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(_independentMovieInfo2.default, { title1: this.state.title1, title2: this.state.title2, year1: this.state.year1, year2: this.state.year2, runtime1: this.state.runtime1, runtime2: this.state.runtime2, director1: this.state.director1, director2: this.state.director2, actorsList1: this.state.actorsList1, actorsList2: this.state.actorsList2, plot1: this.state.plot1, plot2: this.state.plot2, language1: this.state.language1, language2: this.state.language2, countryList1: this.state.countryList1, countryList2: this.state.countryList2, poster1: this.state.poster1, poster2: this.state.poster2, imdbRating1: this.state.imdbRating1, imdbRating2: this.state.imdbRating2, boxOffice1: this.state.boxOffice1, boxOffice2: this.state.boxOffice2, production1: this.state.production1, production2: this.state.production2, website1: this.state.website1, website2: this.state.website2 })
+                ),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(_contentInCommon2.default, { actorsListInCommon: this.state.actorsListInCommon, languageListInComon: this.state.languageListInComon }),
+                _react2.default.createElement('input', { type: 'text', value: this.state.secondTitleinput, onChange: this._handleSecondTitleChange, className: 'inputSearch' }),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this._handleBtnClick },
+                        'check movies'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return MovieSearch;
+}(_react2.default.Component);
+
+exports.default = MovieSearch;
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(81);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ContentInCommon = function (_React$Component) {
+    _inherits(ContentInCommon, _React$Component);
+
+    function ContentInCommon() {
+        _classCallCheck(this, ContentInCommon);
+
+        return _possibleConstructorReturn(this, (ContentInCommon.__proto__ || Object.getPrototypeOf(ContentInCommon)).apply(this, arguments));
+    }
+
+    _createClass(ContentInCommon, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'Wsp\xF3lni aktorzy to: ',
+                    this.props.actorsListInCommon,
+                    _react2.default.createElement('br', null),
+                    'jezyk: ',
+                    this.props.languageListInComon
+                )
+            );
+        }
+    }]);
+
+    return ContentInCommon;
+}(_react2.default.Component);
+
+exports.default = ContentInCommon;
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(81);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IndependentMovieInfo = function (_React$Component) {
+    _inherits(IndependentMovieInfo, _React$Component);
+
+    function IndependentMovieInfo() {
+        _classCallCheck(this, IndependentMovieInfo);
+
+        return _possibleConstructorReturn(this, (IndependentMovieInfo.__proto__ || Object.getPrototypeOf(IndependentMovieInfo)).apply(this, arguments));
+    }
+
+    _createClass(IndependentMovieInfo, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement("img", { src: this.props.poster2, alt: this.props.title2, title: this.props.title2 }),
+                    this.props.errorLoading2,
+                    ", Title: ",
+                    this.props.title2,
+                    ", ",
+                    this.props.year2,
+                    ", ",
+                    this.props.runtime2,
+                    "min, ",
+                    this.props.actorsList2,
+                    ", ",
+                    this.props.plot2
+                ),
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement("img", { src: this.props.poster1, alt: this.props.title1, title: this.props.title1, className: "scale-down-left" }),
+                    "Title: ",
+                    this.props.errorLoading1,
+                    ", ",
+                    this.props.title1,
+                    ", ",
+                    this.props.year1,
+                    ", ",
+                    this.props.runtime1,
+                    "min, ",
+                    this.props.actorsList1,
+                    ", ",
+                    this.props.plot1
+                )
+            );
+        }
+    }]);
+
+    return IndependentMovieInfo;
+}(_react2.default.Component);
+
+exports.default = IndependentMovieInfo;
 
 /***/ })
 /******/ ]);
