@@ -9657,7 +9657,7 @@ var MovieSearch = function (_React$Component) {
         };
 
         _this._yearInCommon = function () {
-            if (_this.state.year1 == _this.state.year1) {
+            if (_this.state.year1 == _this.state.year2) {
                 _this.setState({ yearInCommon: _this.state.year1 });
             } else {
                 _this.setState({ yearInCommon: false });
@@ -9680,6 +9680,7 @@ var MovieSearch = function (_React$Component) {
             runtime2: "",
             director1: "",
             director2: "",
+            directorInCommon: false,
             actorsList1: "",
             actorsList2: "",
             actorsListInCommon: false,

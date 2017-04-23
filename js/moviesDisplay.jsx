@@ -22,6 +22,7 @@ class MovieSearch extends React.Component {
             runtime2: "",
             director1: "",
             director2: "",
+            directorInCommon: false,
             actorsList1: "",
             actorsList2: "",
             actorsListInCommon: false,
@@ -155,7 +156,7 @@ class MovieSearch extends React.Component {
 
 
     _yearInCommon = () => {
-         if (this.state.year1 == this.state.year1) {
+         if (this.state.year1 == this.state.year2) {
               this.setState({yearInCommon: this.state.year1})
          } else {
               this.setState({yearInCommon: false})
