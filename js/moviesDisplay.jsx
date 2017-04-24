@@ -248,7 +248,7 @@ class MovieSearch extends React.Component {
 
                 <div className="col-12">
                     <h1><span>MOVIE</span> Comparator</h1>
-                    <h2>Fined out what two movies have in common</h2>
+                    <h2>Find out what two movies have in common</h2>
 
                 </div>
 

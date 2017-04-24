@@ -6,7 +6,7 @@ class ContentInCommon extends React.Component {
 
     render() {
 
-
+language
          if (this.props.actorsListInCommon) {
               var actors = <div><span className="inCommonTitle">Actors</span> <p>{this.props.actorsListInCommon}</p></div>
          } else {
@@ -47,7 +47,7 @@ class ContentInCommon extends React.Component {
                 <div className="col-8">
                     <h3 >What do they have in common:</h3>
                     {actors}
-                    {language}s
+                    {language}
                     {year}
                     {director}
                     {countrie}
