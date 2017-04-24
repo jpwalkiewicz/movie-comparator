@@ -59,9 +59,9 @@ class MovieSearch extends React.Component {
     };
 
     _handleBtnClick = (event) => {
-        const firstTitleToSearch = "http://www.omdbapi.com/?t=" + this.state.firstTitleinput.split(' ').join('+') + "&plot=full";
+        const firstTitleToSearch = "https://www.omdbapi.com/?t=" + this.state.firstTitleinput.split(' ').join('+') + "&plot=full";
 
-        const secondTitleToSearch = "http://www.omdbapi.com/?t=" + this.state.secondTitleinput.split(' ').join('+') + "&plot=full";
+        const secondTitleToSearch = "https://www.omdbapi.com/?t=" + this.state.secondTitleinput.split(' ').join('+') + "&plot=full";
 
         this._fetchSearch(firstTitleToSearch, secondTitleToSearch)
 

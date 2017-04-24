@@ -9559,9 +9559,9 @@ var MovieSearch = function (_React$Component) {
         };
 
         _this._handleBtnClick = function (event) {
-            var firstTitleToSearch = "http://www.omdbapi.com/?t=" + _this.state.firstTitleinput.split(' ').join('+') + "&plot=full";
+            var firstTitleToSearch = "https://www.omdbapi.com/?t=" + _this.state.firstTitleinput.split(' ').join('+') + "&plot=full";
 
-            var secondTitleToSearch = "http://www.omdbapi.com/?t=" + _this.state.secondTitleinput.split(' ').join('+') + "&plot=full";
+            var secondTitleToSearch = "https://www.omdbapi.com/?t=" + _this.state.secondTitleinput.split(' ').join('+') + "&plot=full";
 
             _this._fetchSearch(firstTitleToSearch, secondTitleToSearch);
         };
