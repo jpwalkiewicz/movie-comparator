@@ -9573,7 +9573,7 @@ var MovieSearch = function (_React$Component) {
 
                 if (data.Response != "False") {
                     _this.setState({
-                        errorLoading1: "",
+                        errorLoading1: true,
                         title1: data.Title,
                         year1: data.Year,
                         runtime1: parseInt(data.Runtime, 10),
@@ -9598,7 +9598,7 @@ var MovieSearch = function (_React$Component) {
                     if (data.Response != "False") {
 
                         _this.setState({
-                            errorLoading2: "",
+                            errorLoading2: true,
                             title2: data.Title,
                             year2: data.Year,
                             runtime2: parseInt(data.Runtime, 10),
@@ -9617,7 +9617,9 @@ var MovieSearch = function (_React$Component) {
                             secondTitleinput: ""
                         });
                     } else {
-                        _this.setState({ errorLoading2: false });
+                        _this.setState({ errorLoading2: false,
+                            firstTitleinput: "",
+                            secondTitleinput: "" });
                     }
                 }).then(function (e) {
                     _this._actorsInCommon();
@@ -9734,8 +9736,8 @@ var MovieSearch = function (_React$Component) {
             secondTitleinput: "",
             url1: "",
             url2: "",
-            errorLoading1: false,
-            errorLoading2: false,
+            errorLoading1: true,
+            errorLoading2: true,
             title1: "",
             title2: "",
             year1: "",
@@ -9779,12 +9781,12 @@ var MovieSearch = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var input1 = _react2.default.createElement('input', { type: 'text', placeholder: 'Enter title 1...', value: this.state.firstTitleinput, onChange: this._handleFirstTitleChange, className: 'inputSearch' });
-            var input2 = _react2.default.createElement('input', { type: 'text', placeholder: 'Enter title 2...', value: this.state.secondTitleinput, onChange: this._handleSecondTitleChange, className: 'inputSearch' });
+            var input1 = _react2.default.createElement('input', { type: 'text', placeholder: 'Enter first title', value: this.state.firstTitleinput, onChange: this._handleFirstTitleChange, className: 'inputSearch' });
+            var input2 = _react2.default.createElement('input', { type: 'text', placeholder: 'Enter second title', value: this.state.secondTitleinput, onChange: this._handleSecondTitleChange, className: 'inputSearch' });
             var btnSearch = _react2.default.createElement(
                 'button',
                 { className: 'btn', onClick: this._handleBtnClick },
-                'check movies'
+                'Compare titles'
             );
 
             var contentInCommon = _react2.default.createElement(_contentInCommon2.default, { actorsListInCommon: this.state.actorsListInCommon, languageListInComon: this.state.languageListInComon, yearInCommon: this.state.yearInCommon, directorInCommon: this.state.directorInCommon, countryListInComon: this.state.countryListInComon, runtimeInCommon: this.state.runtimeInCommon, productionInCommon: this.state.productionInCommon });
@@ -9815,7 +9817,17 @@ var MovieSearch = function (_React$Component) {
                         _react2.default.createElement(
                             'h1',
                             null,
-                            'Fined out what 2 movies have in common'
+                            _react2.default.createElement(
+                                'span',
+                                null,
+                                'M O V I E'
+                            ),
+                            ' Comparator'
+                        ),
+                        _react2.default.createElement(
+                            'h2',
+                            null,
+                            'Fined out what two movies have in common'
                         )
                     ),
                     _react2.default.createElement('div', { className: 'col-3' })
@@ -9833,6 +9845,30 @@ var MovieSearch = function (_React$Component) {
                         'div',
                         { className: 'col-4 centerText' },
                         input2
+                    ),
+                    _react2.default.createElement('div', { className: 'col-2' })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'row' },
+                    _react2.default.createElement('div', { className: 'col-2' }),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-4 centerText' },
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'spanError' },
+                            this.state.errorLoading1 ? "" : "Wrong first title. No movies with that title in IMDb "
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-4 centerText' },
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'spanError' },
+                            this.state.errorLoading1 ? "" : "Wrong second title. No movies with that title in IMDb "
+                        )
                     ),
                     _react2.default.createElement('div', { className: 'col-2' })
                 ),
@@ -9936,19 +9972,15 @@ var ContentInCommon = function (_React$Component) {
                          "div",
                          null,
                          _react2.default.createElement(
-                              "li",
+                              "span",
+                              { className: "inCommonTitle" },
+                              "Actors"
+                         ),
+                         " ",
+                         _react2.default.createElement(
+                              "p",
                               null,
-                              _react2.default.createElement(
-                                   "span",
-                                   { className: "inCommonTitle" },
-                                   "Actors"
-                              ),
-                              " ",
-                              _react2.default.createElement(
-                                   "p",
-                                   null,
-                                   this.props.actorsListInCommon
-                              )
+                              this.props.actorsListInCommon
                          )
                     );
                } else {
@@ -9960,47 +9992,91 @@ var ContentInCommon = function (_React$Component) {
                          "div",
                          null,
                          _react2.default.createElement(
-                              "li",
+                              "span",
+                              { className: "inCommonTitle" },
+                              "Language"
+                         ),
+                         " ",
+                         _react2.default.createElement(
+                              "p",
                               null,
-                              _react2.default.createElement(
-                                   "span",
-                                   { className: "inCommonTitle" },
-                                   "Language"
-                              ),
-                              " ",
-                              _react2.default.createElement(
-                                   "p",
-                                   null,
-                                   this.props.languageListInComon
-                              )
+                              this.props.languageListInComon
                          )
                     );
                } else {
                     var language = "";
                }
 
-               if (this.props.actorsListInCommon || this.props.languageListInComon || this.props.yearInCommon || this.props.directorInCommon || this.props.runtimeInCommon) {
-                    return _react2.default.createElement(
+               if (this.props.yearInCommon) {
+                    var year = _react2.default.createElement(
                          "div",
                          null,
                          _react2.default.createElement(
-                              "h1",
+                              "span",
+                              { className: "inCommonTitle" },
+                              "Year"
+                         ),
+                         " ",
+                         _react2.default.createElement(
+                              "p",
                               null,
+                              this.props.yearInCommon
+                         )
+                    );
+               } else {
+                    var year = "";
+               }
+               if (this.props.directorInCommon) {
+                    var director = _react2.default.createElement(
+                         "div",
+                         null,
+                         _react2.default.createElement(
+                              "span",
+                              { className: "inCommonTitle" },
+                              "Director"
+                         ),
+                         " ",
+                         _react2.default.createElement(
+                              "p",
+                              null,
+                              this.props.directorInCommon
+                         )
+                    );
+               } else {
+                    var director = "";
+               }
+
+               if (this.props.actorsListInCommon || this.props.languageListInComon || this.props.yearInCommon || this.props.directorInCommon || this.props.runtimeInCommon) {
+                    return _react2.default.createElement(
+                         "div",
+                         { className: "centerText row" },
+                         _react2.default.createElement("div", { className: "col-4" }),
+                         _react2.default.createElement(
+                              "h3",
+                              { className: "col-4" },
                               _react2.default.createElement(
                                    "p",
                                    null,
                                    "What do they have in common:"
                               ),
-                              _react2.default.createElement(
-                                   "ul",
-                                   null,
-                                   actors,
-                                   language
-                              )
-                         )
+                              actors,
+                              language,
+                              "s",
+                              year,
+                              director
+                         ),
+                         _react2.default.createElement("div", { className: "col-4" })
                     );
                } else {
-                    return null;
+                    return _react2.default.createElement(
+                         "div",
+                         { className: "centerText" },
+                         _react2.default.createElement(
+                              "h2",
+                              null,
+                              "This movies have nothing in common"
+                         )
+                    );
                }
           }
      }]);
@@ -10067,14 +10143,37 @@ var IndependentMovieInfo = function (_React$Component) {
                 var web2 = "No offical web provided";
             }
 
+            if (this.props.boxOffice1.length > 5) {
+                var boxoffice1 = this.props.boxOffice1;
+            } else {
+                var boxoffice1 = "No boxoffice informations";
+            }
+
+            if (this.props.boxOffice2.length > 5) {
+                var boxoffice2 = this.props.boxOffice1;
+            } else {
+                var boxoffice2 = "No boxoffice informations";
+            }
+
+            if (this.props.poster1.length > 6) {
+                var poster1 = _react2.default.createElement("img", { src: this.props.poster1, alt: this.props.title1, title: this.props.title1, className: "posterImg" });
+            } else {
+                var poster1 = _react2.default.createElement("div", { className: "posterDiv" });
+            }
+
+            if (this.props.poster2.length > 6) {
+                var poster2 = _react2.default.createElement("img", { src: this.props.poster2, alt: this.props.title2, title: this.props.title2, className: "posterImg" });
+            } else {
+                var poster2 = _react2.default.createElement("div", { className: "posterDiv" });
+            }
+
             return _react2.default.createElement(
                 "div",
                 { className: "row" },
                 _react2.default.createElement(
                     "div",
                     { className: "col-5 leftColumn" },
-                    this.props.errorLoading1,
-                    _react2.default.createElement("img", { src: this.props.poster1, alt: this.props.title1, title: this.props.title1, className: "posterImg" }),
+                    poster1,
                     _react2.default.createElement(
                         "ul",
                         null,
@@ -10097,6 +10196,16 @@ var IndependentMovieInfo = function (_React$Component) {
                                 "Year:"
                             ),
                             this.props.year1
+                        ),
+                        _react2.default.createElement(
+                            "li",
+                            null,
+                            _react2.default.createElement(
+                                "span",
+                                { className: "mobileListSpan" },
+                                "Language:"
+                            ),
+                            this.props.language1
                         ),
                         _react2.default.createElement(
                             "li",
@@ -10158,7 +10267,7 @@ var IndependentMovieInfo = function (_React$Component) {
                                 { className: "mobileListSpan" },
                                 "Box Office: "
                             ),
-                            this.props.boxOffice1
+                            boxoffice1
                         ),
                         _react2.default.createElement(
                             "li",
@@ -10208,6 +10317,11 @@ var IndependentMovieInfo = function (_React$Component) {
                                 _react2.default.createElement(
                                     "li",
                                     null,
+                                    "LANGUAGE"
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
                                     "RUNTIME"
                                 ),
                                 _react2.default.createElement(
@@ -10215,11 +10329,10 @@ var IndependentMovieInfo = function (_React$Component) {
                                     null,
                                     "ACTORS"
                                 ),
-                                _react2.default.createElement("li", null),
                                 _react2.default.createElement(
                                     "li",
                                     null,
-                                    "COUNTRIE(s)"
+                                    "COUNTRIE"
                                 ),
                                 _react2.default.createElement(
                                     "li",
@@ -10248,8 +10361,7 @@ var IndependentMovieInfo = function (_React$Component) {
                 _react2.default.createElement(
                     "div",
                     { className: "col-5 rightColumn" },
-                    this.props.errorLoading2,
-                    _react2.default.createElement("img", { src: this.props.poster2, alt: this.props.title2, title: this.props.title2, className: "posterImg" }),
+                    poster2,
                     _react2.default.createElement(
                         "ul",
                         null,
@@ -10272,6 +10384,16 @@ var IndependentMovieInfo = function (_React$Component) {
                                 "Year: "
                             ),
                             this.props.year2
+                        ),
+                        _react2.default.createElement(
+                            "li",
+                            null,
+                            _react2.default.createElement(
+                                "span",
+                                { className: "mobileListSpan" },
+                                "Language:"
+                            ),
+                            this.props.language2
                         ),
                         _react2.default.createElement(
                             "li",
@@ -10333,7 +10455,7 @@ var IndependentMovieInfo = function (_React$Component) {
                                 { className: "mobileListSpan" },
                                 "Box Office: "
                             ),
-                            this.props.boxOffice2
+                            boxoffice2
                         ),
                         _react2.default.createElement(
                             "li",
@@ -12347,7 +12469,7 @@ exports = module.exports = __webpack_require__(90)(undefined);
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n  margin: 0 auto; }\n\n.container {\n  margin: 0 auto;\n  width: 100%;\n  max-width: 1200px; }\n  .container .row {\n    margin: 10px 0; }\n    .container .row:before, .container .row:after {\n      content: \"\";\n      display: table;\n      clear: both; }\n    .container .row [class*=\"col-\"] {\n      float: left;\n      min-height: 1px;\n      width: 100%; }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-1 {\n        width: 8.33333%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-2 {\n        width: 16.66667%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-3 {\n        width: 25%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-4 {\n        width: 33.33333%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-5 {\n        width: 41.66667%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-6 {\n        width: 50%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-7 {\n        width: 58.33333%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-8 {\n        width: 66.66667%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-9 {\n        width: 75%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-10 {\n        width: 83.33333%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-11 {\n        width: 91.66667%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-12 {\n        width: 100%; } }\n\nbody {\n  background-color: white;\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif; }\n\n.centerText {\n  text-align: center; }\n\nh1 {\n  font-size: 15px; }\n\n.btn {\n  width: 93%;\n  padding: 5px;\n  border-radius: 5px;\n  border: 1px solid blue;\n  background-color: lightblue; }\n\n.inputSearch {\n  width: 90%;\n  display: inline-block;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  padding: 5px;\n  margin: 5px;\n  border: 1px solid #b7b7b7;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif;\n  color: #008ec6;\n  -o-text-overflow: clip;\n  text-overflow: clip;\n  background: #fcfcfc;\n  -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.66);\n  -webkit-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -moz-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -o-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1); }\n\nul {\n  list-style: none;\n  float: left;\n  padding: 0;\n  list-style-type: none; }\n\nli {\n  text-decoration: none;\n  padding-bottom: 5px; }\n\na {\n  word-wrap: break-word;\n  white-space: pre-wrap; }\n\n.inCommonTitle {\n  font-size: 25px;\n  font-weight: 600; }\n\n.leftColumn {\n  text-align: left;\n  padding-left: 10px; }\n  @media only screen and (min-width: 735px) {\n    .leftColumn {\n      text-align: right; } }\n\n.centerCol {\n  display: none; }\n  @media only screen and (min-width: 735px) {\n    .centerCol {\n      display: inline; } }\n\n.inCommonCenter {\n  height: 455px; }\n\n.inCommonTitles ul {\n  width: 100%; }\n  .inCommonTitles ul li {\n    width: 100%;\n    text-align: center;\n    font-weight: 600; }\n\n.rightColumn {\n  padding-left: 10px; }\n  @media only screen and (min-width: 735px) {\n    .rightColumn {\n      padding-left: 0px; } }\n\n.posterImg {\n  width: 75%; }\n  @media only screen and (min-width: 735px) {\n    .posterImg {\n      width: 300px;\n      height: 450px;\n      padding-bottom: 10px; } }\n\n.mobileListSpan {\n  display: inline;\n  font-weight: 600;\n  padding-right: 3px; }\n  @media only screen and (min-width: 735px) {\n    .mobileListSpan {\n      display: none; } }\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n  margin: 0 auto; }\n\n.container {\n  margin: 0 auto;\n  width: 100%;\n  max-width: 1200px; }\n  .container .row {\n    margin: 10px 0; }\n    .container .row:after, .container .row:before {\n      content: \"\";\n      display: table;\n      clear: both; }\n    .container .row [class*=\"col-\"] {\n      float: left;\n      min-height: 1px;\n      width: 100%; }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-1 {\n        width: 8.33333%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-2 {\n        width: 16.66667%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-3 {\n        width: 25%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-4 {\n        width: 33.33333%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-5 {\n        width: 41.66667%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-6 {\n        width: 50%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-7 {\n        width: 58.33333%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-8 {\n        width: 66.66667%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-9 {\n        width: 75%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-10 {\n        width: 83.33333%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-11 {\n        width: 91.66667%; } }\n    @media only screen and (min-width: 540px) {\n      .container .row .col-12 {\n        width: 100%; } }\n\nbody {\n  background-color: white;\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif; }\n\n.centerText {\n  text-align: center; }\n\nh1 {\n  font-size: 50px;\n  font-family: 'Carter One', serif; }\n  h1 span {\n    display: inline;\n    position: relative;\n    font: 60px 'Monoton', Sans-Serif;\n    letter-spacing: -7px;\n    color: #6db3f2; }\n    h1 span:after {\n      content: \"MOVIE\";\n      position: absolute;\n      left: 2px;\n      top: 2px;\n      color: #1e69de; }\n\n.btn {\n  display: inline-block;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  cursor: pointer;\n  padding: 10px 20px;\n  border: 1px solid #018dc4;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  font: normal normal bold 16px/normal Arial, Helvetica, sans-serif;\n  color: rgba(255, 255, 255, 0.9);\n  -o-text-overflow: clip;\n  text-overflow: clip;\n  letter-spacing: 1px;\n  word-spacing: 1px;\n  background: -webkit-linear-gradient(-90deg, #6db3f2 0, #54a3ee 50%, #3690f0 51%, #1e69de 100%);\n  background: -moz-linear-gradient(180deg, #6db3f2 0, #54a3ee 50%, #3690f0 51%, #1e69de 100%);\n  background: linear-gradient(180deg, #6db3f2 0, #54a3ee 50%, #3690f0 51%, #1e69de 100%);\n  background-position: 50% 50%;\n  -webkit-background-origin: padding-box;\n  background-origin: padding-box;\n  -webkit-background-clip: border-box;\n  background-clip: border-box;\n  -webkit-background-size: auto auto;\n  background-size: auto auto;\n  -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);\n  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);\n  text-shadow: -1px -1px 0 rgba(15, 73, 168, 0.66);\n  -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);\n  -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);\n  -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);\n  transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1); }\n  .btn:hover {\n    transform: scale(1.2);\n    transition-duration: 100ms;\n    font-weight: 600; }\n\n.inputSearch {\n  width: 85%;\n  display: inline-block;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  padding: 10px;\n  margin: 5px;\n  border: 1px solid #b7b7b7;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif;\n  color: #1e69de;\n  -o-text-overflow: clip;\n  text-overflow: clip;\n  background: #fcfcfc;\n  -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.66);\n  -webkit-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -moz-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -o-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1); }\n\n.spanError {\n  font-size: 12px;\n  color: red; }\n\nul {\n  list-style: none;\n  float: left;\n  padding: 0;\n  list-style-type: none; }\n\nli {\n  text-decoration: none;\n  padding-bottom: 5px; }\n\na {\n  word-wrap: break-word;\n  white-space: pre-wrap; }\n\n.inCommonTitle {\n  font-size: 25px;\n  font-weight: 600; }\n\n.leftColumn {\n  text-align: left;\n  padding-left: 10px;\n  padding-right: 10px;\n  padding-bottom: 5px; }\n  @media only screen and (min-width: 760px) {\n    .leftColumn {\n      text-align: right; } }\n\n.centerCol {\n  display: none; }\n  @media only screen and (min-width: 760px) {\n    .centerCol {\n      display: inline; } }\n\n.inCommonCenter {\n  height: 455px; }\n\n.inCommonTitles ul {\n  width: 100%; }\n  .inCommonTitles ul li {\n    width: 100%;\n    text-align: center;\n    font-weight: 600; }\n\n.rightColumn {\n  padding-left: 10px;\n  padding-right: 10px; }\n  @media only screen and (min-width: 760px) {\n    .rightColumn {\n      padding-left: 0; } }\n\n.posterImg {\n  width: 75%;\n  padding-bottom: 10px;\n  padding-top: 10px; }\n  @media only screen and (min-width: 760px) {\n    .posterImg {\n      width: 300px;\n      height: 450px; } }\n\n.posterDiv {\n  width: 75%;\n  height: 100%;\n  background-color: gray; }\n  @media only screen and (min-width: 760px) {\n    .posterDiv {\n      width: 300px;\n      height: 450px;\n      padding-bottom: 10px; } }\n\n.mobileListSpan {\n  display: inline;\n  font-weight: 600;\n  padding-right: 3px; }\n  @media only screen and (min-width: 760px) {\n    .mobileListSpan {\n      display: none; } }\n", ""]);
 
 // exports
 

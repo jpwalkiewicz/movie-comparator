@@ -11,8 +11,8 @@ class MovieSearch extends React.Component {
             secondTitleinput: "",
             url1: "",
             url2: "",
-            errorLoading1: false,
-            errorLoading2: false,
+            errorLoading1: true,
+            errorLoading2: true,
             title1: "",
             title2: "",
             year1: "",
@@ -72,7 +72,7 @@ class MovieSearch extends React.Component {
 
             if (data.Response != "False") {
                 this.setState({
-                    errorLoading1: "",
+                    errorLoading1: true,
                     title1: data.Title,
                     year1: data.Year,
                     runtime1: parseInt(data.Runtime, 10),
@@ -95,7 +95,7 @@ class MovieSearch extends React.Component {
                 if (data.Response != "False") {
 
                     this.setState({
-                        errorLoading2: "",
+                        errorLoading2: true,
                         title2: data.Title,
                         year2: data.Year,
                         runtime2: parseInt(data.Runtime, 10),
@@ -114,7 +114,9 @@ class MovieSearch extends React.Component {
                         secondTitleinput: "",
                     })
                 } else {
-                    this.setState({errorLoading2: false})
+                    this.setState({errorLoading2: false,
+                         firstTitleinput: "",
+                         secondTitleinput: ""})
                 }
             }).then(e => {
                 this._actorsInCommon();
@@ -229,9 +231,9 @@ class MovieSearch extends React.Component {
     }
 
     render() {
-        const input1 = <input type="text" placeholder="Enter title 1..." value={this.state.firstTitleinput} onChange={this._handleFirstTitleChange} className="inputSearch"/>
-        const input2 = <input type="text" placeholder="Enter title 2..." value={this.state.secondTitleinput} onChange={this._handleSecondTitleChange} className="inputSearch"/>
-        const btnSearch = <button className="btn" onClick={this._handleBtnClick}>check movies</button>
+        const input1 = <input type="text" placeholder="Enter first title" value={this.state.firstTitleinput} onChange={this._handleFirstTitleChange} className="inputSearch"/>
+        const input2 = <input type="text" placeholder="Enter second title" value={this.state.secondTitleinput} onChange={this._handleSecondTitleChange} className="inputSearch"/>
+        const btnSearch = <button className="btn" onClick={this._handleBtnClick}>Compare titles</button>
 
         const contentInCommon = <ContentInCommon actorsListInCommon={this.state.actorsListInCommon} languageListInComon={this.state.languageListInComon} yearInCommon={this.state.yearInCommon} directorInCommon={this.state.directorInCommon} countryListInComon={this.state.countryListInComon} runtimeInCommon={this.state.runtimeInCommon} productionInCommon={this.state.productionInCommon}/>
 
@@ -245,7 +247,9 @@ class MovieSearch extends React.Component {
             <header className="row centerText">
                 <div className="col-3"></div>
                 <div className="col-6">
-                    <h1>Fined out what 2 movies have in common</h1>
+                    <h1><span>M O V I E</span> Comparator</h1>
+                    <h2>Fined out what two movies have in common</h2>
+
                 </div>
                 <div className="col-3"></div>
             </header>
@@ -259,6 +263,17 @@ class MovieSearch extends React.Component {
                 </div>
                 <div className="col-2"></div>
             </div>
+
+            <div className="row">
+                <div className="col-2"></div>
+                <div className="col-4 centerText">
+                    <span className="spanError">{this.state.errorLoading1 ? "" : "Wrong first title. No movies with that title in IMDb " }</span>
+                </div>
+                <div className="col-4 centerText">
+                    <span className="spanError">{this.state.errorLoading1 ? "" : "Wrong second title. No movies with that title in IMDb " }</span>
+                </div>
+                <div className="col-2"></div>
+            </div>
             <div className="row">
                 <div className="col-4"></div>
                 <div className="col-4 centerText">
@@ -267,6 +282,7 @@ class MovieSearch extends React.Component {
 
                 <div className="col-4"></div>
             </div>
+
 
             {displayContent}
         </div >

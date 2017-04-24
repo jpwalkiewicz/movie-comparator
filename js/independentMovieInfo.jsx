@@ -15,11 +15,39 @@ class IndependentMovieInfo extends React.Component {
             var web2 = "No offical web provided";
         }
 
+        if (this.props.boxOffice1.length > 5) {
+            var boxoffice1 = this.props.boxOffice1
+        } else {
+            var boxoffice1 = "No boxoffice informations";
+        }
+
+        if (this.props.boxOffice2.length > 5) {
+            var boxoffice2 = this.props.boxOffice1
+        } else {
+            var boxoffice2 = "No boxoffice informations";
+        }
+
+
+
+        if (this.props.poster1.length > 6) {
+            var poster1 = <img src={this.props.poster1} alt={this.props.title1} title={this.props.title1} className="posterImg"/>
+       } else {
+            var poster1 =  <div className="posterDiv"/>
+       }
+
+       if (this.props.poster2.length > 6) {
+          var poster2 = <img src={this.props.poster2} alt={this.props.title2} title={this.props.title2} className="posterImg"/>
+     } else {
+          var poster2 =  <div className="posterDiv"/>
+     }
+
+
+
         return <div className="row">
 
             <div className="col-5 leftColumn">
-                {this.props.errorLoading1}
-                <img src={this.props.poster1} alt={this.props.title1} title={this.props.title1} className="posterImg"/>
+
+                {poster1}
                 <ul>
 
                     <li>
@@ -28,6 +56,9 @@ class IndependentMovieInfo extends React.Component {
                     <li>
                         <span className="mobileListSpan">Year:</span>
                         {this.props.year1}</li>
+                        <li>
+                           <span className="mobileListSpan">Language:</span>
+                           {this.props.language1}</li>
                     <li>
                         <span className="mobileListSpan">Runtime:</span>
                         {this.props.runtime1}
@@ -45,10 +76,10 @@ class IndependentMovieInfo extends React.Component {
                     <li>
                         <span className="mobileListSpan">Imdb Rating: </span>
                         {this.props.imdbRating1}
-                        / 10</li>
+                         / 10</li>
                     <li>
                         <span className="mobileListSpan">Box Office: </span>
-                        {this.props.boxOffice1}</li>
+                        {boxoffice1}</li>
 
                     <li>
                         <span className="mobileListSpan">Web: </span>
@@ -68,10 +99,11 @@ class IndependentMovieInfo extends React.Component {
                     <ul>
                          <li>TITLE</li>
                          <li>YEAR</li>
+                         <li>LANGUAGE</li>
                          <li>RUNTIME</li>
                          <li>ACTORS</li>
-                         <li></li>                         
-                         <li>COUNTRIE(s)</li>
+
+                         <li>COUNTRIE</li>
                          <li>PRDUCTION</li>
                          <li>Imdb RATE</li>
                          <li>BOXOFFICE</li>
@@ -84,9 +116,9 @@ class IndependentMovieInfo extends React.Component {
             </div>
 
             <div className="col-5 rightColumn">
-                {this.props.errorLoading2}
-                <img src={this.props.poster2} alt={this.props.title2} title={this.props.title2} className="posterImg"/>
-                <ul>
+
+                {poster2}
+                    <ul>
 
                     <li>
                         <span className="mobileListSpan">Title: </span>
@@ -94,6 +126,10 @@ class IndependentMovieInfo extends React.Component {
                     <li>
                         <span className="mobileListSpan">Year: </span>
                         {this.props.year2}</li>
+
+                        <li>
+                          <span className="mobileListSpan">Language:</span>
+                          {this.props.language2}</li>
                     <li>
                         <span className="mobileListSpan">Runtime: </span>
                         {this.props.runtime2}
@@ -111,10 +147,10 @@ class IndependentMovieInfo extends React.Component {
                     <li>
                         <span className="mobileListSpan">Imdb Rating: </span>
                         {this.props.imdbRating2}
-                        / 10</li>
+                         / 10</li>
                     <li>
                         <span className="mobileListSpan">Box Office: </span>
-                        {this.props.boxOffice2}</li>
+                        {boxoffice2}</li>
                     <li>
                         <span className="mobileListSpan">Web: </span>
                         {web2}</li>
