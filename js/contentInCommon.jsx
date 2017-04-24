@@ -29,26 +29,31 @@ class ContentInCommon extends React.Component {
          } else {
                var director = "";
          }
-
+         if (this.props.countryListInComon) {
+              var countrie =<div><span className="inCommonTitle">Countries</span> <p>{this.props.countryListInComon}</p></div>
+         } else {
+               var countrie = "";
+         }
+         if (this.props.productionInCommon) {
+              var production =<div><span className="inCommonTitle">Production</span> <p>{this.props.productionInCommon}</p></div>
+         } else {
+               var production = "";
+         }
 
 
         if (this.props.actorsListInCommon || this.props.languageListInComon || this.props.yearInCommon || this.props.directorInCommon || this.props.runtimeInCommon) {
             return <div className="centerText row">
-               <div className="col-4"></div>
-                <h3 className="col-4">
-                    <p>What do they have in common:</p>
-
+               <div className="col-2"></div>
+                <div className="col-8">
+                    <h3 >What do they have in common:</h3>
                     {actors}
                     {language}s
                     {year}
                     {director}
-
-
-
-
-
-                </h3>
-                <div className="col-4"></div>
+                    {countrie}
+                    {production}
+                </div>
+                <div className="col-2"></div>
 
             </div>
        } else {

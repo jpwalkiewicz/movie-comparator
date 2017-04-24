@@ -6,7 +6,7 @@ span {
 $column: 12;
 $site-width: 1200px;
 $gutter: 10px;
-$mobile-up: "only screen and (min-width: 540px)";
+$mobile-up: "only screen and (min-width: 376px)";
 $menuChange: "only screen and (min-width: 760px)"; // and (max-width: 800px)"
 @mixin clear() {
 	&:after,
@@ -49,12 +49,21 @@ $menuChange: "only screen and (min-width: 760px)"; // and (max-width: 800px)"
 }
 
 body {
-	background-color: white;
+	// background-color: white;
+	background: rgba(255,255,255,1);
+
+background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=1 );
 	font: normal 16px/normal "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 .centerText {
 	text-align: center;
+}
+
+header {
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 h1 {
@@ -89,6 +98,7 @@ h1 {
 // }
 
 .btn {
+	margin-bottom: 20px;
   display: inline-block;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -162,9 +172,9 @@ h1 {
 
 ul {
 	list-style: none;
-	float: left;
 	padding: 0;
 	list-style-type: none;
+	margin-top: 10px;
 }
 
 li {
@@ -177,20 +187,35 @@ a {
 	word-wrap: break-word;
 	white-space: pre-wrap;
 }
+h2 {
+	padding-bottom: 10px;
+}
+
+h3 {
+	font-size: 22px;
+	padding-bottom: 10px;
+	p {
+	font-size: 15px;
+	}
+}
 
 .inCommonTitle {
-	font-size: 25px;
+
+	font-size: 20px;
 	font-weight: 600;
+	color: rgba(30,105,222,1);
 }
 
 .leftColumn {
 	text-align: left;
-	padding-left: 10px;
+	padding-left: 15px;
 	padding-right: 10px;
 	padding-bottom: 5px;
+	margin-bottom: 15px;
 	// border-bottom: 3px solid blue;
 	@media #{$menuChange} {
 		text-align: right;
+		margin-bottom: 0px;
 	}
 }
 
@@ -216,7 +241,7 @@ a {
 }
 
 .rightColumn {
-	padding-left: 10px;
+	padding-left: 15px;
 	padding-right: 10px;
 	// border-left: 5px solid lightgray;
 	@media #{$menuChange} {
@@ -226,25 +251,13 @@ a {
 }
 
 .posterImg {
-	width: 75%;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	@media #{$menuChange} {
-		// width: 300px;
-		width: 300px;
-		height: 450px;
-	}
-}
+	box-shadow: 0px 0px 34px -2px rgba(0,0,0,0.75);
+	width: 100%;
 
-.posterDiv {
-	width: 75%;
-	height: 100%;
-	background-color: gray;
 	@media #{$menuChange} {
 		// width: 300px;
 		width: 300px;
 		height: 450px;
-		padding-bottom: 10px;
 	}
 }
 

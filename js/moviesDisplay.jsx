@@ -233,7 +233,7 @@ class MovieSearch extends React.Component {
     render() {
         const input1 = <input type="text" placeholder="Enter first title" value={this.state.firstTitleinput} onChange={this._handleFirstTitleChange} className="inputSearch"/>
         const input2 = <input type="text" placeholder="Enter second title" value={this.state.secondTitleinput} onChange={this._handleSecondTitleChange} className="inputSearch"/>
-        const btnSearch = <button className="btn" onClick={this._handleBtnClick}>Compare titles</button>
+        const btnSearch = <button className="btn" onClick={this._handleBtnClick}>Compare movies</button>
 
         const contentInCommon = <ContentInCommon actorsListInCommon={this.state.actorsListInCommon} languageListInComon={this.state.languageListInComon} yearInCommon={this.state.yearInCommon} directorInCommon={this.state.directorInCommon} countryListInComon={this.state.countryListInComon} runtimeInCommon={this.state.runtimeInCommon} productionInCommon={this.state.productionInCommon}/>
 
@@ -245,13 +245,13 @@ class MovieSearch extends React.Component {
 
         return <div className="container">
             <header className="row centerText">
-                <div className="col-3"></div>
-                <div className="col-6">
-                    <h1><span>M O V I E</span> Comparator</h1>
+
+                <div className="col-12">
+                    <h1><span>MOVIE</span> Comparator</h1>
                     <h2>Fined out what two movies have in common</h2>
 
                 </div>
-                <div className="col-3"></div>
+
             </header>
             <div className="row">
                 <div className="col-2"></div>
@@ -270,7 +270,7 @@ class MovieSearch extends React.Component {
                     <span className="spanError">{this.state.errorLoading1 ? "" : "Wrong first title. No movies with that title in IMDb " }</span>
                 </div>
                 <div className="col-4 centerText">
-                    <span className="spanError">{this.state.errorLoading1 ? "" : "Wrong second title. No movies with that title in IMDb " }</span>
+                    <span className="spanError">{this.state.errorLoading2 ? "" : "Wrong second title. No movies with that title in IMDb " }</span>
                 </div>
                 <div className="col-2"></div>
             </div>
@@ -282,8 +282,6 @@ class MovieSearch extends React.Component {
 
                 <div className="col-4"></div>
             </div>
-
-
             {displayContent}
         </div >
 

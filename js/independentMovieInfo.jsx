@@ -32,13 +32,13 @@ class IndependentMovieInfo extends React.Component {
         if (this.props.poster1.length > 6) {
             var poster1 = <img src={this.props.poster1} alt={this.props.title1} title={this.props.title1} className="posterImg"/>
        } else {
-            var poster1 =  <div className="posterDiv"/>
+            var poster1 =  <img src="./images/poster_error.png" alt={this.props.title1} title={this.props.title1} className="posterImg"/>
        }
 
        if (this.props.poster2.length > 6) {
           var poster2 = <img src={this.props.poster2} alt={this.props.title2} title={this.props.title2} className="posterImg"/>
      } else {
-          var poster2 =  <div className="posterDiv"/>
+          var poster2 =  <img src="./images/poster_error.png" alt={this.props.title2} title={this.props.title2} className="posterImg"/>
      }
 
 
