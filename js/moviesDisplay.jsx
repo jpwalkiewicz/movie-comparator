@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ContentInCommon from './contentInCommon.jsx';
 import IndependentMovieInfo from './independentMovieInfo.jsx';
@@ -11,8 +10,8 @@ class MovieSearch extends React.Component {
             secondTitleinput: "",
             url1: "",
             url2: "",
-            errorLoading1: "",
-            errorLoading2: "",
+            errorLoading1: false,
+            errorLoading2: false,
             title1: "",
             title2: "",
             year1: "",
@@ -20,6 +19,7 @@ class MovieSearch extends React.Component {
             yearInCommon: false,
             runtime1: "",
             runtime2: "",
+            runtimeInCommon: false,
             director1: "",
             director2: "",
             directorInCommon: false,
@@ -33,6 +33,7 @@ class MovieSearch extends React.Component {
             languageListInComon: false,
             countryList1: "",
             countryList2: "",
+            countryListInComon: false,
             poster1: "",
             poster2: "",
             imdbRating1: "",
@@ -41,6 +42,7 @@ class MovieSearch extends React.Component {
             boxOffice2: "",
             production1: "",
             production2: "",
+            productionInCommon: false,
             website1: "",
             website2: ""
         };
@@ -77,8 +79,13 @@ class MovieSearch extends React.Component {
                     poster1: data.Poster,
                     director1: data.Director,
                     language1: data.Language,
-                    plot1: data.Plot
-               })
+                    plot1: data.Plot,
+                    production1: data.Production,
+                    countryList1: data.Country,
+                    imdbRating1: data.imdbRating,
+                    boxOffice1: data.BoxOffice,
+                    website1: data.Website
+                })
             } else {
                 this.setState({errorLoading1: false})
             }
@@ -95,15 +102,24 @@ class MovieSearch extends React.Component {
                         poster2: data.Poster,
                         director2: data.Director,
                         language2: data.Language,
-                        plot2: data.Plot
+                        plot2: data.Plot,
+                        production2: data.Production,
+                        countryList2: data.Country,
+                        imdbRating2: data.imdbRating,
+                        boxOffice2: data.BoxOffice,
+                        website2: data.Website
                     })
                 } else {
                     this.setState({errorLoading2: false})
                 }
             }).then(e => {
-                this._actorsInCommon()
-                this._languageInCommon()
-                this._yearInCommon()
+                this._actorsInCommon();
+                this._languageInCommon();
+                this._yearInCommon();
+                this._directorInCommon();
+                this._countryListInComon();
+                this._runtimeInCommon();
+                this._productionInCommon();
             })
         })
     }
@@ -122,9 +138,9 @@ class MovieSearch extends React.Component {
         }
         let incomon;
         if (commonActorsArr.length >= 0) {
-             incomon = commonActorsArr.join(", ");
+            incomon = commonActorsArr.join(", ");
         } else {
-             incomon = false
+            incomon = false
         }
 
         this.setState({actorsListInCommon: incomon})
@@ -136,7 +152,6 @@ class MovieSearch extends React.Component {
         const language2 = this.state.language2.split(', ');
         const commonLanguageArr = []
 
-
         for (var i = 0; i < language1.length; i++) {
             for (var j = 0; j < language2.length; j++) {
                 if (language1[i] == language2[j]) {
@@ -144,47 +159,109 @@ class MovieSearch extends React.Component {
                 }
             }
 
-        } let incomon;
-         if (commonLanguageArr.length >= 0) {
-              incomon = commonLanguageArr.join(", ");
-         } else {
-              incomon = false
-         }
+        }
+        let incomon;
+        if (commonLanguageArr.length >= 0) {
+            incomon = commonLanguageArr.join(", ");
+        } else {
+            incomon = false
+        }
 
-         this.setState({languageListInComon: incomon})
+        this.setState({languageListInComon: incomon})
     }
 
+    _countryListInComon = () => {
+        const country1 = this.state.countryList1.split(', ');
+        const country2 = this.state.countryList2.split(', ');
+        const commonCountriesArr = []
+
+        for (var i = 0; i < country1.length; i++) {
+            for (var j = 0; j < country2.length; j++) {
+                if (country1[i] == country2[j]) {
+                    commonCountriesArr.push(country1[i]);
+                }
+            }
+
+        }
+        let incomon;
+        if (commonCountriesArr.length >= 0) {
+            incomon = commonCountriesArr.join(", ");
+        } else {
+            incomon = false
+        }
+
+        this.setState({countryListInComon: incomon})
+    }
 
     _yearInCommon = () => {
-         if (this.state.year1 == this.state.year2) {
-              this.setState({yearInCommon: this.state.year1})
-         } else {
-              this.setState({yearInCommon: false})
-         }
+        if (this.state.year1 == this.state.year2) {
+            this.setState({yearInCommon: this.state.year1})
+        } else {
+            this.setState({yearInCommon: false})
+        }
+    }
+
+    _directorInCommon = () => {
+        if (this.state.director1 == this.state.director2) {
+            this.setState({directorInCommon: this.state.director1})
+        } else {
+            this.setState({directorInCommon: false})
+        }
+    }
+
+    _runtimeInCommon = () => {
+        if (this.state.runtime1 == this.state.runtime2) {
+            this.setState({runtimeInCommon: this.state.runtime1})
+        } else {
+            this.setState({runtimeInCommon: false})
+        }
+    }
+    _productionInCommon = () => {
+        if (this.state.production1 == this.state.production2) {
+            this.setState({productionInCommon: this.state.production1})
+        } else {
+            this.setState({productionInCommon: false})
+        }
     }
 
     render() {
+        const input1 = <input type="text" placeholder="Enter title 1..." value={this.state.firstTitleinput} onChange={this._handleFirstTitleChange} className="inputSearch"/>
+        const input2 = <input type="text" placeholder="Enter title 2..." value={this.state.secondTitleinput} onChange={this._handleSecondTitleChange} className="inputSearch"/>
+        const btnSearch = <button className="btn" onClick={this._handleBtnClick}>check movies</button>
 
-        return <div>
-        <div className="searchDiv">
-            <input type="text" value={this.state.firstTitleinput} onChange={this._handleFirstTitleChange} className="inputSearch"/>
-           <button className="btn" onClick={this._handleBtnClick}>check movies</button>
-            <input type="text" value={this.state.secondTitleinput} onChange={this._handleSecondTitleChange} className="inputSearch"/>
+        const contentInCommon = <ContentInCommon actorsListInCommon={this.state.actorsListInCommon} languageListInComon={this.state.languageListInComon} yearInCommon={this.state.yearInCommon} directorInCommon={this.state.directorInCommon} countryListInComon={this.state.countryListInComon} runtimeInCommon={this.state.runtimeInCommon} productionInCommon={this.state.productionInCommon}/>
 
-</div>
+        const independentMovieInfo = <IndependentMovieInfo errorLoading1={this.state.errorLoading1} errorLoading2={this.state.errorLoading2} title1={this.state.title1} title2={this.state.title2} year1={this.state.year1} year2={this.state.year2} runtime1={this.state.runtime1} runtime2={this.state.runtime2} director1={this.state.director1} director2={this.state.director2} actorsList1={this.state.actorsList1} actorsList2={this.state.actorsList2} plot1={this.state.plot1} plot2={this.state.plot2} language1={this.state.language1} language2={this.state.language2} countryList1={this.state.countryList1} countryList2={this.state.countryList2} poster1={this.state.poster1} poster2={this.state.poster2} imdbRating1={this.state.imdbRating1} imdbRating2={this.state.imdbRating2} boxOffice1={this.state.boxOffice1} boxOffice2={this.state.boxOffice2} production1={this.state.production1} production2={this.state.production2} website1={this.state.website1} website2={this.state.website2}/>
 
- <ContentInCommon actorsListInCommon={this.state.actorsListInCommon} languageListInComon={this.state.languageListInComon} yearInCommon={this.state.yearInCommon} />
+        return <div className="container">
+            <header className="row">
+                <div className="col-3"></div>
+                <div className="col-6">
+                    <h1>Fined out what 2 movies have in common</h1>
+                </div>
+                <div className="col-3"></div>
+            </header>
+            <div className="row">
+                <div className="col-2"></div>
+                <div className="col-4">
+                    {input1}
+                </div>
+                <div className="col-4">
+                    {input2}
+                </div>
+                <div className="col-2"></div>
+            </div>
+            <div className="row">
+                <div className="col-5"></div>
+                <div className="col-2">
+                    {btnSearch}
+                </div>
 
-
-
-            <IndependentMovieInfo  errorLoading1={this.state. errorLoading1} errorLoading2={this.state. errorLoading2} title1={this.state.title1} title2={this.state.title2} year1={this.state.year1} year2={this.state.year2} runtime1={this.state.runtime1} runtime2={this.state.runtime2} director1={this.state.director1} director2={this.state.director2} actorsList1={this.state.actorsList1} actorsList2={this.state.actorsList2} plot1={this.state.plot1} plot2={this.state.plot2} language1={this.state.language1} language2={this.state.language2} countryList1={this.state.countryList1} countryList2={this.state.countryList2} poster1={this.state.poster1} poster2={this.state.poster2} imdbRating1={this.state.imdbRating1} imdbRating2={this.state.imdbRating2} boxOffice1={this.state.boxOffice1} boxOffice2={this.state.boxOffice2} production1={this.state.production1} production2={this.state.production2} website1={this.state.website1} website2={this.state.website2} />
-
-
-
-
-
-
-        </div>
+                <div className="col-5"></div>
+            </div>
+            {contentInCommon}
+            {independentMovieInfo}
+        </div >
 
     }
 }

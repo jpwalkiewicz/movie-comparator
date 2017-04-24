@@ -1,65 +1,99 @@
-body {
-	background-color: white;
+$column: 12;
+$site-width: 1200px;
+$gutter: 10px;
+$mobile-up: "only screen and (min-width: 400px)";
 
+
+@mixin clear() {
+     &:before,
+     &:after {
+          content: "";
+          display: table;
+          clear: both;
+     }
+}
+
+* {
+     box-sizing: border-box;
+     margin: 0 auto;
 
 }
-// div {
-// 	overflow: auto;
-// }
+
+div, span {
+		border: 1px solid red;
+}
+
+.container {
+     margin: 0 auto;
+     width: 100%;
+     max-width: $site-width;
+
+     .row {
+          margin: $gutter 0;
+          @include clear();
+
+          [class*="col-"] {
+               float: left;
+               min-height: 1px;
+               width: 100%;
+               padding: 5px $gutter;
+               margin-top: 5px;
+          }
+
+          @for $i from 1 through $column {
+               .col-#{$i} {
+                    @media #{$mobile-up} {
+                         width: (100%/$column) * $i;
+                    }
+               }
+          }
+     }
+}
+
+body {
+	background-color: white;
+	font: normal 16px/normal "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+header {
+	text-align: center;
+}
+
+h1 {
+	font-size: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 .btn {
   height: 100px;
   margin: 10px;
   width: 100px;
   border-radius: 50%;
-  border: 1px solid red;
+  border: 1px solid blue;
+  background-color: darkblue;
 }
 
-.searchDiv {
-	display: flex;
-	justify-content: center;
 
-}
-
-.firstParagraph {
-	margin-top: 453px;
-}
-
-.mainDivContent{
-	display: flex;
-}
-
-.movieContentLeft {
-	width: 40%;
-	display: flex;
-	align-items: flex-start;
-	// justify-content: flex-end;
-	flex-direction: column;
-}
-.movieContentRight {
-	width: 40%;
-		display: flex;
-		align-items: flex-start;
-		flex-direction: column;
-}
-.dataAttributeDisplay {
-	width: 20%;
-		display: flex;
-		align-items: flex-start;
-		 justify-content: center;
-
-		flex-direction: column;
-		font-size: 16px;
-		font-weight: 600;
-
-}
 
 .inputSearch {
+	width: 90%;
   display: inline-block;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
-  padding: 10px 20px;
+  padding: 5px;
+  margin: 5px;
   border: 1px solid #b7b7b7;
   -webkit-border-radius: 6px;
   border-radius: 6px;
@@ -75,4 +109,16 @@ body {
   -moz-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);
   -o-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);
   transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+.inCommonTitle {
+	font-size: 25px;
+	font-weight: 600;
+
+}
+
+.leftColumn {
+	text-align: left;
+	@media #{$mobile-up} {
+		text-align: right;
+	}
 }
