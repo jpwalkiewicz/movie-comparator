@@ -1,7 +1,15 @@
+div, span {
+		// border: 1px solid red;
+}
+
+
+
 $column: 12;
 $site-width: 1200px;
 $gutter: 10px;
-$mobile-up: "only screen and (min-width: 400px)";
+$mobile-up: "only screen and (min-width: 540px)";
+$menuChange: "only screen and (min-width: 735px)" ;
+// and (max-width: 800px)"
 
 
 @mixin clear() {
@@ -17,10 +25,7 @@ $mobile-up: "only screen and (min-width: 400px)";
      box-sizing: border-box;
      margin: 0 auto;
 
-}
 
-div, span {
-		border: 1px solid red;
 }
 
 .container {
@@ -36,8 +41,8 @@ div, span {
                float: left;
                min-height: 1px;
                width: 100%;
-               padding: 5px $gutter;
-               margin-top: 5px;
+               // padding: 5px $gutter;
+               // margin-top: 5px;
           }
 
           @for $i from 1 through $column {
@@ -50,13 +55,17 @@ div, span {
      }
 }
 
+
+
 body {
 	background-color: white;
 	font: normal 16px/normal "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
-header {
-	text-align: center;
+
+
+.centerText {
+		text-align: center;
 }
 
 h1 {
@@ -64,24 +73,12 @@ h1 {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 .btn {
-  height: 100px;
-  margin: 10px;
-  width: 100px;
-  border-radius: 50%;
+  width: 93%;;
+  padding: 5px;
+  border-radius: 5px;
   border: 1px solid blue;
-  background-color: darkblue;
+  background-color: lightblue;
 }
 
 
@@ -110,6 +107,27 @@ h1 {
   -o-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);
   transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);
 }
+
+ul {
+  list-style: none;
+  float: left;
+  padding: 0;
+    list-style-type: none;
+
+}
+li {
+
+    text-decoration: none;
+    padding-bottom: 5px;
+    // word-wrap: break-word;
+}
+
+
+a {
+	word-wrap: break-word;
+	 white-space: pre-wrap;
+}
+
 .inCommonTitle {
 	font-size: 25px;
 	font-weight: 600;
@@ -118,7 +136,58 @@ h1 {
 
 .leftColumn {
 	text-align: left;
-	@media #{$mobile-up} {
+	padding-left: 10px;
+	@media #{$menuChange} {
 		text-align: right;
+	}
+}
+
+.centerCol {
+	display: none;
+	@media #{$menuChange} {
+		display: inline;
+	}
+
+}
+
+.inCommonCenter {
+	height: 455px;
+}
+
+.inCommonTitles ul {
+	width: 100%;
+	 li{
+		 width: 100%;
+	text-align: center;
+	font-weight: 600;
+	
+}
+}
+
+.rightColumn {
+	padding-left: 10px;
+	@media #{$menuChange} {
+		padding-left: 0px;
+	}
+}
+
+.posterImg {
+	width: 75%;
+
+	@media #{$menuChange} {
+		// width: 300px;
+		width: 300px;
+		height: 450px;
+		padding-bottom: 10px;
+	}
+
+}
+
+.mobileListSpan {
+	display: inline;
+	font-weight: 600;
+	padding-right: 3px;
+	@media #{$menuChange} {
+		display: none;
 	}
 }

@@ -8,9 +8,15 @@ class ContentInCommon extends React.Component {
 
 
          if (this.props.actorsListInCommon) {
-              var actors = <div><span className="inCommonTitle">Actors</span> <p>{this.props.actorsListInCommon}</p></div>
+              var actors = <div><li><span className="inCommonTitle">Actors</span> <p>{this.props.actorsListInCommon}</p></li></div>
          } else {
                var actors = "";
+         }
+
+         if (this.props.languageListInComon) {
+              var language = <div><li><span className="inCommonTitle">Language</span> <p>{this.props.languageListInComon}</p></li></div>
+         } else {
+               var language = "";
          }
 
 
@@ -19,25 +25,14 @@ class ContentInCommon extends React.Component {
             return <div>
                 <h1>
                     <p>What do they have in common:</p>
+                    <ul>
                     {actors}
+                    {language}
 
-                    <p>{this.props.languageListInComon
-                            ? `Languages: ${this.props.languageListInComon}`
-                            : ""}</p>
 
-                    <p>{this.props.yearInCommon
-                            ? `Year of production: ${this.props.yearInCommon}`
-                            : ""}</p>
+                    </ul>
 
-                    <p>{this.props.directorInCommon
-                            ? `Director: ${this.props.directorInCommon}`
-                            : ""}</p>
-                    <p>{this.props.runtimeInCommon
-                            ? `Runetime: ${this.props.runtimeInCommon} min`
-                            : ""}</p>
-                    <p>{this.props.productionInCommon
-                            ? `Production: ${this.props.productionInCommon}`
-                            : ""}</p>
+
                 </h1>
 
             </div>

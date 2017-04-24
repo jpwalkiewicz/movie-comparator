@@ -6,6 +6,7 @@ class MovieSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+             display: false,
             firstTitleinput: "",
             secondTitleinput: "",
             url1: "",
@@ -107,7 +108,10 @@ class MovieSearch extends React.Component {
                         countryList2: data.Country,
                         imdbRating2: data.imdbRating,
                         boxOffice2: data.BoxOffice,
-                        website2: data.Website
+                        website2: data.Website,
+                        display: true,
+                        firstTitleinput: "",
+                        secondTitleinput: "",
                     })
                 } else {
                     this.setState({errorLoading2: false})
@@ -233,8 +237,12 @@ class MovieSearch extends React.Component {
 
         const independentMovieInfo = <IndependentMovieInfo errorLoading1={this.state.errorLoading1} errorLoading2={this.state.errorLoading2} title1={this.state.title1} title2={this.state.title2} year1={this.state.year1} year2={this.state.year2} runtime1={this.state.runtime1} runtime2={this.state.runtime2} director1={this.state.director1} director2={this.state.director2} actorsList1={this.state.actorsList1} actorsList2={this.state.actorsList2} plot1={this.state.plot1} plot2={this.state.plot2} language1={this.state.language1} language2={this.state.language2} countryList1={this.state.countryList1} countryList2={this.state.countryList2} poster1={this.state.poster1} poster2={this.state.poster2} imdbRating1={this.state.imdbRating1} imdbRating2={this.state.imdbRating2} boxOffice1={this.state.boxOffice1} boxOffice2={this.state.boxOffice2} production1={this.state.production1} production2={this.state.production2} website1={this.state.website1} website2={this.state.website2}/>
 
+        if (this.state.display) {
+             var displayContent = <div>{contentInCommon} {independentMovieInfo} </div>
+        }
+
         return <div className="container">
-            <header className="row">
+            <header className="row centerText">
                 <div className="col-3"></div>
                 <div className="col-6">
                     <h1>Fined out what 2 movies have in common</h1>
@@ -243,24 +251,24 @@ class MovieSearch extends React.Component {
             </header>
             <div className="row">
                 <div className="col-2"></div>
-                <div className="col-4">
+                <div className="col-4 centerText">
                     {input1}
                 </div>
-                <div className="col-4">
+                <div className="col-4 centerText">
                     {input2}
                 </div>
                 <div className="col-2"></div>
             </div>
             <div className="row">
-                <div className="col-5"></div>
-                <div className="col-2">
+                <div className="col-4"></div>
+                <div className="col-4 centerText">
                     {btnSearch}
                 </div>
 
-                <div className="col-5"></div>
+                <div className="col-4"></div>
             </div>
-            {contentInCommon}
-            {independentMovieInfo}
+
+            {displayContent}
         </div >
 
     }
