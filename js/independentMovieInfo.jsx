@@ -67,7 +67,7 @@ class IndependentMovieInfo extends React.Component {
             var boxoffice1 = "No boxoffice informations";
         }
 
-        if (this.props.boxOffice2.length > 5) {
+        if (this.props.boxOffice2.length > 5 ) {
             var boxoffice2 = this.props.boxOffice2
         } else {
             var boxoffice2 = "No boxoffice informations";
@@ -96,7 +96,7 @@ class IndependentMovieInfo extends React.Component {
             var poster2 = <img src="./images/poster_error.png" alt={this.props.title2} title={this.props.title2} className="posterImg"/>
         }
 
-        return <div className="row">
+        return <div className="row movieShow">
 
             <div className="col-5 leftColumn">
 
@@ -115,8 +115,7 @@ class IndependentMovieInfo extends React.Component {
                         {this.props.language1}</li>
                     <li>
                         <span className="mobileListSpan">Runtime:</span>
-                        {this.props.runtime1}
-                        min</li>
+                        {this.props.runtime1} min</li>
                     <li>
                         <span className="mobileListSpan">Actors:</span>
                         {this.props.actorsList1}</li>
@@ -199,8 +198,7 @@ class IndependentMovieInfo extends React.Component {
                     <li>
                         <span className="mobileListSpan">Runtime:
                         </span>
-                        {this.props.runtime2}
-                        min</li>
+                        {this.props.runtime2} min</li>
                     <li>
                         <span className="mobileListSpan">Actors:
                         </span>

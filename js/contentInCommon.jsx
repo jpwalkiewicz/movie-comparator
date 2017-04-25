@@ -51,7 +51,8 @@ class ContentInCommon extends React.Component {
                     {director}
                     {countrie}
                     {production}
-                </div>
+                    <br/>
+               </div>
                 <div className="col-2"></div>
 
             </div>
