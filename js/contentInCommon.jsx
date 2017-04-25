@@ -6,36 +6,35 @@ class ContentInCommon extends React.Component {
 
     render() {
 
-language
          if (this.props.actorsListInCommon) {
-              var actors = <div><span className="inCommonTitle">Actors</span> <p>{this.props.actorsListInCommon}</p></div>
+              var actors = <div><span className="inCommonInfo">Actors</span> <p>{this.props.actorsListInCommon}</p></div>
          } else {
                var actors = "";
          }
 
          if (this.props.languageListInComon) {
-              var language = <div><span className="inCommonTitle">Language</span> <p>{this.props.languageListInComon}</p></div>
+              var language = <div><span className="inCommonInfo">Language</span> <p>{this.props.languageListInComon}</p></div>
          } else {
                var language = "";
          }
 
          if (this.props.yearInCommon) {
-              var year =<div><span className="inCommonTitle">Year</span> <p>{this.props.yearInCommon}</p></div>
+              var year =<div><span className="inCommonInfo">Year</span> <p>{this.props.yearInCommon}</p></div>
          } else {
                var year = "";
          }
          if (this.props.directorInCommon) {
-              var director =<div><span className="inCommonTitle">Director</span> <p>{this.props.directorInCommon}</p></div>
+              var director =<div><span className="inCommonInfo">Director</span> <p>{this.props.directorInCommon}</p></div>
          } else {
                var director = "";
          }
          if (this.props.countryListInComon) {
-              var countrie =<div><span className="inCommonTitle">Countries</span> <p>{this.props.countryListInComon}</p></div>
+              var countrie =<div><span className="inCommonInfo">Countries</span> <p>{this.props.countryListInComon}</p></div>
          } else {
                var countrie = "";
          }
          if (this.props.productionInCommon) {
-              var production =<div><span className="inCommonTitle">Production</span> <p>{this.props.productionInCommon}</p></div>
+              var production =<div><span className="inCommonInfo">Production</span> <p>{this.props.productionInCommon}</p></div>
          } else {
                var production = "";
          }

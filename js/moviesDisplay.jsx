@@ -85,10 +85,15 @@ class MovieSearch extends React.Component {
                     countryList1: data.Country,
                     imdbRating1: data.imdbRating,
                     boxOffice1: data.BoxOffice,
-                    website1: data.Website
+                    website1: data.Website,
+                    firstTitleinput: "",
+                    secondTitleinput: "",
                 })
             } else {
-                this.setState({errorLoading1: false})
+                this.setState({errorLoading1: false,
+                     firstTitleinput: "",
+                     secondTitleinput: "",
+                display: false})
             }
 
             fetch(movie2).then((res) => res.json()).then((data) => {
@@ -116,7 +121,8 @@ class MovieSearch extends React.Component {
                 } else {
                     this.setState({errorLoading2: false,
                          firstTitleinput: "",
-                         secondTitleinput: ""})
+                         secondTitleinput: "",
+                    display: false})
                 }
             }).then(e => {
                 this._actorsInCommon();

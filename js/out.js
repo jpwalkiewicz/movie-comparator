@@ -9586,10 +9586,15 @@ var MovieSearch = function (_React$Component) {
                         countryList1: data.Country,
                         imdbRating1: data.imdbRating,
                         boxOffice1: data.BoxOffice,
-                        website1: data.Website
+                        website1: data.Website,
+                        firstTitleinput: "",
+                        secondTitleinput: ""
                     });
                 } else {
-                    _this.setState({ errorLoading1: false });
+                    _this.setState({ errorLoading1: false,
+                        firstTitleinput: "",
+                        secondTitleinput: "",
+                        display: false });
                 }
 
                 fetch(movie2).then(function (res) {
@@ -9619,7 +9624,8 @@ var MovieSearch = function (_React$Component) {
                     } else {
                         _this.setState({ errorLoading2: false,
                             firstTitleinput: "",
-                            secondTitleinput: "" });
+                            secondTitleinput: "",
+                            display: false });
                     }
                 }).then(function (e) {
                     _this._actorsInCommon();
@@ -9965,14 +9971,13 @@ var ContentInCommon = function (_React$Component) {
           key: "render",
           value: function render() {
 
-               language;
                if (this.props.actorsListInCommon) {
                     var actors = _react2.default.createElement(
                          "div",
                          null,
                          _react2.default.createElement(
                               "span",
-                              { className: "inCommonTitle" },
+                              { className: "inCommonInfo" },
                               "Actors"
                          ),
                          " ",
@@ -9992,7 +9997,7 @@ var ContentInCommon = function (_React$Component) {
                          null,
                          _react2.default.createElement(
                               "span",
-                              { className: "inCommonTitle" },
+                              { className: "inCommonInfo" },
                               "Language"
                          ),
                          " ",
@@ -10012,7 +10017,7 @@ var ContentInCommon = function (_React$Component) {
                          null,
                          _react2.default.createElement(
                               "span",
-                              { className: "inCommonTitle" },
+                              { className: "inCommonInfo" },
                               "Year"
                          ),
                          " ",
@@ -10031,7 +10036,7 @@ var ContentInCommon = function (_React$Component) {
                          null,
                          _react2.default.createElement(
                               "span",
-                              { className: "inCommonTitle" },
+                              { className: "inCommonInfo" },
                               "Director"
                          ),
                          " ",
@@ -10050,7 +10055,7 @@ var ContentInCommon = function (_React$Component) {
                          null,
                          _react2.default.createElement(
                               "span",
-                              { className: "inCommonTitle" },
+                              { className: "inCommonInfo" },
                               "Countries"
                          ),
                          " ",
@@ -10069,7 +10074,7 @@ var ContentInCommon = function (_React$Component) {
                          null,
                          _react2.default.createElement(
                               "span",
-                              { className: "inCommonTitle" },
+                              { className: "inCommonInfo" },
                               "Production"
                          ),
                          " ",
@@ -10152,13 +10157,62 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var IndependentMovieInfo = function (_React$Component) {
     _inherits(IndependentMovieInfo, _React$Component);
 
-    function IndependentMovieInfo() {
+    function IndependentMovieInfo(props) {
         _classCallCheck(this, IndependentMovieInfo);
 
-        return _possibleConstructorReturn(this, (IndependentMovieInfo.__proto__ || Object.getPrototypeOf(IndependentMovieInfo)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (IndependentMovieInfo.__proto__ || Object.getPrototypeOf(IndependentMovieInfo)).call(this, props));
+
+        _this.state = {
+            ulSizeChange: function ulSizeChange() {
+                var ul1 = document.querySelector(".leftUl").children;
+                var ul2 = document.querySelector(".rightUl").children;
+                var ulList = document.querySelector(".ulList").children;
+
+                for (var i = 0; i < 12; i++) {
+                    ul1[i].style.height = "";
+                    ul2[i].style.height = "";
+
+                    if (ul1[i].clientHeight > ul2[i].clientHeight) {
+
+                        if (window.innerWidth > 760) {
+                            ul2[i].style.height = ul1[i].clientHeight + "px";
+                            ulList[i].style.height = ul1[i].clientHeight + "px";
+                        } else {
+                            ul1[i].style.height = "";
+                            ul2[i].style.height = "";
+                        }
+                    } else {
+                        if (window.innerWidth > 760) {
+                            ul1[i].style.height = ul2[i].clientHeight + "px";
+                            ulList[i].style.height = ul2[i].clientHeight + "px";
+                        } else {
+                            ul1[i].style.height = "";
+                            ul2[i].style.height = "";
+                        }
+                    }
+                }
+            }
+
+        };
+
+        return _this;
     }
 
     _createClass(IndependentMovieInfo, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            window.addEventListener('resize', function () {
+                _this2.state.ulSizeChange();
+            }, true);
+        }
+    }, {
+        key: "componentDidUpdate",
+        value: function componentDidUpdate() {
+            this.state.ulSizeChange();
+        }
+    }, {
         key: "render",
         value: function render() {
             if (this.props.website1.length > 5) {
@@ -10188,9 +10242,20 @@ var IndependentMovieInfo = function (_React$Component) {
             }
 
             if (this.props.boxOffice2.length > 5) {
-                var boxoffice2 = this.props.boxOffice1;
+                var boxoffice2 = this.props.boxOffice2;
             } else {
                 var boxoffice2 = "No boxoffice informations";
+            }
+            if (this.props.imdbRating1.indexOf("N") == -1) {
+                var imdb1 = this.props.imdbRating1 + " / 10";
+            } else {
+                var imdb1 = "No IMDb raiting";
+            }
+
+            if (this.props.imdbRating2.indexOf("N") == -1) {
+                var imdb2 = this.props.imdbRating2 + " / 10";
+            } else {
+                var imdb2 = "No IMDb raiting";
             }
 
             if (this.props.poster1.length > 6) {
@@ -10214,7 +10279,7 @@ var IndependentMovieInfo = function (_React$Component) {
                     poster1,
                     _react2.default.createElement(
                         "ul",
-                        null,
+                        { className: "leftUl" },
                         _react2.default.createElement(
                             "li",
                             null,
@@ -10272,7 +10337,17 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Countries: "
+                                "Director:"
+                            ),
+                            this.props.director1
+                        ),
+                        _react2.default.createElement(
+                            "li",
+                            null,
+                            _react2.default.createElement(
+                                "span",
+                                { className: "mobileListSpan" },
+                                "Countries:"
                             ),
                             this.props.countryList1
                         ),
@@ -10282,7 +10357,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Production: "
+                                "Production:"
                             ),
                             this.props.production1
                         ),
@@ -10292,10 +10367,9 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Imdb Rating: "
+                                "Imdb Rating:"
                             ),
-                            this.props.imdbRating1,
-                            "/ 10"
+                            imdb1
                         ),
                         _react2.default.createElement(
                             "li",
@@ -10303,7 +10377,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Box Office: "
+                                "Box Office:"
                             ),
                             boxoffice1
                         ),
@@ -10313,7 +10387,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Web: "
+                                "Web:"
                             ),
                             web1
                         ),
@@ -10323,7 +10397,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Plot: "
+                                "Plot:"
                             ),
                             this.props.plot1
                         )
@@ -10341,7 +10415,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             { className: "inCommonTitles" },
                             _react2.default.createElement(
                                 "ul",
-                                null,
+                                { className: "ulList" },
                                 _react2.default.createElement(
                                     "li",
                                     null,
@@ -10370,6 +10444,11 @@ var IndependentMovieInfo = function (_React$Component) {
                                 _react2.default.createElement(
                                     "li",
                                     null,
+                                    "DIRECTOR"
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
                                     "COUNTRIE"
                                 ),
                                 _react2.default.createElement(
@@ -10380,12 +10459,17 @@ var IndependentMovieInfo = function (_React$Component) {
                                 _react2.default.createElement(
                                     "li",
                                     null,
-                                    "Imdb RATE"
+                                    "IMDb RATE"
                                 ),
                                 _react2.default.createElement(
                                     "li",
                                     null,
                                     "BOXOFFICE"
+                                ),
+                                _react2.default.createElement(
+                                    "li",
+                                    null,
+                                    "WWW"
                                 ),
                                 _react2.default.createElement(
                                     "li",
@@ -10402,14 +10486,18 @@ var IndependentMovieInfo = function (_React$Component) {
                     poster2,
                     _react2.default.createElement(
                         "ul",
-                        null,
+                        { className: "rightUl" },
                         _react2.default.createElement(
                             "li",
                             null,
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Title: "
+                                _react2.default.createElement(
+                                    "strong",
+                                    null,
+                                    "Title:"
+                                )
                             ),
                             this.props.title2
                         ),
@@ -10419,7 +10507,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Year: "
+                                "Year:"
                             ),
                             this.props.year2
                         ),
@@ -10439,7 +10527,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Runtime: "
+                                "Runtime:"
                             ),
                             this.props.runtime2,
                             "min"
@@ -10450,7 +10538,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Actors: "
+                                "Actors:"
                             ),
                             this.props.actorsList2
                         ),
@@ -10460,7 +10548,17 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Countries: "
+                                "Director:"
+                            ),
+                            this.props.director2
+                        ),
+                        _react2.default.createElement(
+                            "li",
+                            null,
+                            _react2.default.createElement(
+                                "span",
+                                { className: "mobileListSpan" },
+                                "Countries:"
                             ),
                             this.props.countryList2
                         ),
@@ -10470,7 +10568,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Production: "
+                                "Production:"
                             ),
                             this.props.production2
                         ),
@@ -10480,10 +10578,9 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Imdb Rating: "
+                                "Imdb Rating:"
                             ),
-                            this.props.imdbRating2,
-                            "/ 10"
+                            imdb2
                         ),
                         _react2.default.createElement(
                             "li",
@@ -10491,7 +10588,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Box Office: "
+                                "Box Office:"
                             ),
                             boxoffice2
                         ),
@@ -10501,7 +10598,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Web: "
+                                "Web:"
                             ),
                             web2
                         ),
@@ -10511,7 +10608,7 @@ var IndependentMovieInfo = function (_React$Component) {
                             _react2.default.createElement(
                                 "span",
                                 { className: "mobileListSpan" },
-                                "Plot: "
+                                "Plot:"
                             ),
                             this.props.plot2
                         )
@@ -12507,7 +12604,7 @@ exports = module.exports = __webpack_require__(90)(undefined);
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n  margin: 0 auto; }\n\n.container {\n  margin: 0 auto;\n  width: 100%;\n  max-width: 1200px; }\n  .container .row {\n    margin: 10px 0; }\n    .container .row:after, .container .row:before {\n      content: \"\";\n      display: table;\n      clear: both; }\n    .container .row [class*=\"col-\"] {\n      float: left;\n      min-height: 1px;\n      width: 100%; }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-1 {\n        width: 8.33333%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-2 {\n        width: 16.66667%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-3 {\n        width: 25%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-4 {\n        width: 33.33333%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-5 {\n        width: 41.66667%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-6 {\n        width: 50%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-7 {\n        width: 58.33333%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-8 {\n        width: 66.66667%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-9 {\n        width: 75%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-10 {\n        width: 83.33333%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-11 {\n        width: 91.66667%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-12 {\n        width: 100%; } }\n\nbody {\n  background: white;\n  background: linear-gradient(to right, white 0%, #f6f6f6 47%, #ededed 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=1 );\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif; }\n\n.centerText {\n  text-align: center; }\n\nheader {\n  margin-left: 10px;\n  margin-right: 10px; }\n\nh1 {\n  font-size: 50px;\n  font-family: 'Carter One', serif; }\n  h1 span {\n    display: inline;\n    position: relative;\n    font: 60px 'Monoton', Sans-Serif;\n    letter-spacing: -7px;\n    color: #6db3f2; }\n    h1 span:after {\n      content: \"MOVIE\";\n      position: absolute;\n      left: 2px;\n      top: 2px;\n      color: #1e69de; }\n\n.btn {\n  margin-bottom: 20px;\n  display: inline-block;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  cursor: pointer;\n  padding: 10px 20px;\n  border: 1px solid #018dc4;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  font: normal normal bold 16px/normal Arial, Helvetica, sans-serif;\n  color: rgba(255, 255, 255, 0.9);\n  -o-text-overflow: clip;\n  text-overflow: clip;\n  letter-spacing: 1px;\n  word-spacing: 1px;\n  background: -webkit-linear-gradient(-90deg, #6db3f2 0, #54a3ee 50%, #3690f0 51%, #1e69de 100%);\n  background: -moz-linear-gradient(180deg, #6db3f2 0, #54a3ee 50%, #3690f0 51%, #1e69de 100%);\n  background: linear-gradient(180deg, #6db3f2 0, #54a3ee 50%, #3690f0 51%, #1e69de 100%);\n  background-position: 50% 50%;\n  -webkit-background-origin: padding-box;\n  background-origin: padding-box;\n  -webkit-background-clip: border-box;\n  background-clip: border-box;\n  -webkit-background-size: auto auto;\n  background-size: auto auto;\n  -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);\n  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);\n  text-shadow: -1px -1px 0 rgba(15, 73, 168, 0.66);\n  -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);\n  -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);\n  -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);\n  transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1); }\n  .btn:hover {\n    transform: scale(1.2);\n    transition-duration: 100ms;\n    font-weight: 600; }\n\n.inputSearch {\n  width: 85%;\n  display: inline-block;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  padding: 10px;\n  margin: 5px;\n  border: 1px solid #b7b7b7;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif;\n  color: #1e69de;\n  -o-text-overflow: clip;\n  text-overflow: clip;\n  background: #fcfcfc;\n  -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.66);\n  -webkit-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -moz-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -o-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1); }\n\n.spanError {\n  font-size: 12px;\n  color: red; }\n\nul {\n  list-style: none;\n  padding: 0;\n  list-style-type: none;\n  margin-top: 10px; }\n\nli {\n  text-decoration: none;\n  padding-bottom: 5px; }\n\na {\n  word-wrap: break-word;\n  white-space: pre-wrap; }\n\nh2 {\n  padding-bottom: 10px; }\n\nh3 {\n  font-size: 22px;\n  padding-bottom: 10px; }\n  h3 p {\n    font-size: 15px; }\n\n.inCommonTitle {\n  font-size: 20px;\n  font-weight: 600;\n  color: #1e69de; }\n\n.leftColumn {\n  text-align: left;\n  padding-left: 15px;\n  padding-right: 15px;\n  padding-bottom: 5px;\n  margin-bottom: 15px; }\n  @media only screen and (min-width: 760px) {\n    .leftColumn {\n      text-align: right;\n      margin: 0;\n      padding: 0; } }\n\n.centerCol {\n  display: none; }\n  @media only screen and (min-width: 760px) {\n    .centerCol {\n      display: inline; } }\n\n.inCommonCenter {\n  height: 455px; }\n\n.inCommonTitles ul {\n  width: 100%; }\n  .inCommonTitles ul li {\n    width: 100%;\n    text-align: center;\n    font-weight: 600; }\n\n.rightColumn {\n  padding-left: 15px;\n  padding-right: 15px; }\n  @media only screen and (min-width: 760px) {\n    .rightColumn {\n      padding: 0; } }\n\n.posterImg {\n  box-shadow: 0px 0px 34px -2px rgba(0, 0, 0, 0.75);\n  width: 100%; }\n  @media only screen and (min-width: 760px) {\n    .posterImg {\n      width: 300px;\n      height: 450px; } }\n\n.mobileListSpan {\n  display: inline;\n  font-weight: 600;\n  padding-right: 3px; }\n  @media only screen and (min-width: 760px) {\n    .mobileListSpan {\n      display: none; } }\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n  margin: 0 auto; }\n\n.container {\n  margin: 0 auto;\n  width: 100%;\n  max-width: 1200px; }\n  .container .row {\n    margin: 10px 0; }\n    .container .row:after, .container .row:before {\n      content: \"\";\n      display: table;\n      clear: both; }\n    .container .row [class*=\"col-\"] {\n      float: left;\n      min-height: 1px;\n      width: 100%; }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-1 {\n        width: 8.33333%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-2 {\n        width: 16.66667%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-3 {\n        width: 25%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-4 {\n        width: 33.33333%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-5 {\n        width: 41.66667%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-6 {\n        width: 50%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-7 {\n        width: 58.33333%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-8 {\n        width: 66.66667%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-9 {\n        width: 75%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-10 {\n        width: 83.33333%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-11 {\n        width: 91.66667%; } }\n    @media only screen and (min-width: 376px) {\n      .container .row .col-12 {\n        width: 100%; } }\n\nbody {\n  background: white;\n  background: linear-gradient(to right, white 0%, #f6f6f6 47%, #ededed 100%);\n  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= '#ffffff', endColorstr='#ededed', GradientType=1 );\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif; }\n\n.centerText {\n  text-align: center; }\n\nheader {\n  margin-left: 10px;\n  margin-right: 10px; }\n\nh1 {\n  font-size: 50px;\n  font-family: 'Carter One', serif; }\n  h1 span {\n    display: inline;\n    position: relative;\n    font: 60px 'Monoton', Sans-Serif;\n    color: #6db3f2; }\n    h1 span:after {\n      content: \"MOVIE\";\n      position: absolute;\n      left: 2px;\n      top: 2px;\n      color: #1e69de; }\n\n.btn {\n  margin-bottom: 20px;\n  display: inline-block;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  cursor: pointer;\n  padding: 10px 20px;\n  border: 1px solid #018dc4;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  font: normal normal bold 16px/normal Arial, Helvetica, sans-serif;\n  color: rgba(255, 255, 255, 0.9);\n  -o-text-overflow: clip;\n  text-overflow: clip;\n  letter-spacing: 1px;\n  word-spacing: 1px;\n  background: -webkit-linear-gradient(-90deg, #6db3f2 0, #54a3ee 50%, #3690f0 51%, #1e69de 100%);\n  background: -moz-linear-gradient(180deg, #6db3f2 0, #54a3ee 50%, #3690f0 51%, #1e69de 100%);\n  background: linear-gradient(180deg, #6db3f2 0, #54a3ee 50%, #3690f0 51%, #1e69de 100%);\n  background-position: 50% 50%;\n  -webkit-background-origin: padding-box;\n  background-origin: padding-box;\n  -webkit-background-clip: border-box;\n  background-clip: border-box;\n  -webkit-background-size: auto auto;\n  background-size: auto auto;\n  -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);\n  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);\n  text-shadow: -1px -1px 0 rgba(15, 73, 168, 0.66);\n  -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);\n  -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);\n  -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);\n  transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1); }\n  .btn:hover {\n    transform: scale(1.2);\n    transition-duration: 100ms;\n    font-weight: 600; }\n\n.inputSearch {\n  width: 85%;\n  display: inline-block;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  padding: 10px;\n  margin: 5px;\n  border: 1px solid #b7b7b7;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  font: normal 16px/normal \"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif;\n  color: #1e69de;\n  -o-text-overflow: clip;\n  text-overflow: clip;\n  background: #fcfcfc;\n  -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2) inset;\n  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.66);\n  -webkit-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -moz-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  -o-transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1);\n  transition: border-color 200ms cubic-bezier(0.42, 0, 0.58, 1); }\n\n.spanError {\n  font-size: 12px;\n  color: red; }\n\nul {\n  list-style: none;\n  padding: 0;\n  list-style-type: none;\n  margin-top: 10px; }\n\nli {\n  text-decoration: none;\n  padding-bottom: 10px; }\n\na {\n  word-wrap: break-word;\n  white-space: pre-wrap; }\n\nh2 {\n  padding-bottom: 10px; }\n\nh3 {\n  font-size: 22px;\n  padding-bottom: 10px; }\n  h3 p {\n    font-size: 15px; }\n\n.inCommonInfo {\n  padding-top: 5px;\n  font-size: 20px;\n  font-weight: 600;\n  color: #1e69de; }\n\n.leftColumn {\n  text-align: left;\n  padding-left: 15px;\n  padding-right: 15px;\n  padding-bottom: 5px;\n  margin-bottom: 15px; }\n  @media only screen and (min-width: 760px) {\n    .leftColumn {\n      text-align: right;\n      margin: 0;\n      padding: 0; } }\n\n.centerCol {\n  display: none; }\n  @media only screen and (min-width: 760px) {\n    .centerCol {\n      display: inline; } }\n\n.inCommonCenter {\n  height: 455px; }\n\n.inCommonTitles ul {\n  width: 100%; }\n  .inCommonTitles ul li {\n    width: 100%;\n    text-align: center;\n    font-weight: 600; }\n\n.rightColumn {\n  padding-left: 15px;\n  padding-right: 15px; }\n  @media only screen and (min-width: 760px) {\n    .rightColumn {\n      padding: 0; } }\n\n.posterImg {\n  box-shadow: 0 0 34px -2px rgba(0, 0, 0, 0.75);\n  width: 100%; }\n  @media only screen and (min-width: 760px) {\n    .posterImg {\n      width: 300px;\n      height: 450px; } }\n\n.mobileListSpan {\n  display: inline;\n  font-weight: 600;\n  padding-right: 3px; }\n  @media only screen and (min-width: 760px) {\n    .mobileListSpan {\n      display: none; } }\n", ""]);
 
 // exports
 
